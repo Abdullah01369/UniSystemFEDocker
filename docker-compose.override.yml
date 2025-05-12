@@ -1,0 +1,23 @@
+
+
+services:
+  unisystemfe:
+    image: unisystemfeimage
+    ports:
+    - "5020:80"
+    container_name: unisystemfecontainer
+    build:
+      context: .
+      dockerfile: UniSystemFE/Dockerfile
+
+  sqlserverfe:
+    
+    environment:
+    - ACCEPT_EULA=Y
+    - MSSQL_SA_PASSWORD=Password12*
+    volumes:
+    - sqlserverfe_volume:/var/opt/mssql
+    ports:
+    - "1435:1433"
+  
+    

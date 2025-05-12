@@ -1,0 +1,77 @@
+﻿@{
+    ViewData["Title"] = "AcademicInformation";
+    Layout = "~/Areas/AcademicianInformationSystem/Views/Shared/_ResearcherInformationLayout.cshtml";
+}
+ @using SharedLayer.Dtos
+ @model EducationInfoDto
+
+<div class="section">
+    <h2 class="section-title">Education Information</h2>
+
+    <div class="panel">
+        <div class="panel-header">
+            <h3 class="panel-title">Education Information</h3>
+            <span class="panel-toggle">−</span>
+        </div>
+        <div class="panel-content" style="display: block;">
+            @if (Model.Doctorate != null)
+            {
+
+
+                <div class="item">
+                    <div class="item-period">@Model.DoctorateDate</div>
+                    <h4 class="item-title">Doctorate</h4>
+                    <div class="item-subtitle">@Model.Doctorate</div>
+                </div>
+            }
+            @if (Model.Postgraduate != null)
+            {
+                <div class="item">
+                    <div class="item-period">@Model.PostgraduateDate</div>
+                    <h4 class="item-title">Postgraduate</h4>
+                    <div class="item-subtitle">@Model.Postgraduate</div>
+                </div>
+
+
+            }
+            @if (Model.Undergraduate != null)
+            {
+                <div class="item">
+                    <div class="item-period">@Model.UndergraduateDate</div>
+                    <h4 class="item-title">Undergraduate</h4>
+                    <div class="item-subtitle">@Model.Undergraduate</div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="panel">
+        <div class="panel-header">
+            <h3 class="panel-title">Foreign Languages</h3>
+            <span class="panel-toggle">−</span>
+        </div>
+        <div class="panel-content" style="display: block;">
+
+            @if (Model.ForegnLang!=null)
+            {
+                <div class="item">
+
+                    <div class="language-name">@Model.ForegnLang</div>
+                </div>
+            } 
+            @if (Model.ForegnLang != null)
+            {
+                <div class="item">
+
+                    <div class="language-name">@Model.ForegnLangII</div>
+                </div>
+            }
+          
+           
+        </div>
+    </div>
+</div>
+
+
+
+

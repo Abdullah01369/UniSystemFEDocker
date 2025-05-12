@@ -1,0 +1,156 @@
+﻿@using SharedLayer.ViewModels
+@model ICollection<AcademicianLessonsDto>
+@{
+    ViewData["Title"] = "CourseManagement";
+    Layout = "~/Areas/Academician/Views/Shared/_AcademicianLayout.cshtml";
+}
+
+<div class="content-wrapper">
+
+
+    <section class="content">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <!-- Total Courses -->
+                    <div class="small-box bg-primary">
+                        <div class="inner">
+                            <h3>120</h3>
+                            <p>Toplam Ders</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-bookmark"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">Daha fazla bilgi <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <!-- Active Courses -->
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <h3>85</h3>
+                            <p>Aktif Dersler</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-checkmark"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">Daha fazla bilgi <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <!-- Students Registered -->
+                    <div class="small-box bg-warning">
+                        <div class="inner">
+                            <h3>300</h3>
+                            <p>Kayıtlı Öğrenciler</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-person"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">Daha fazla bilgi <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="container">
+                    <h2 class="my-4 text-center">Verilen Dersler</h2>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th scope="col">Ders Kodu</th>
+                                            <th scope="col">Ders Adı</th>
+                                            <th scope="col">Ders Saati</th>
+                                            <th scope="col">Mekan</th>
+                                            <th scope="col">Öğrenci Sayısı</th>
+                                            <th scope="col">İşlemler</th>
+                                            <th scope="col">Durum</th>
+                                            <th scope="col">Ders Öğrencilerine Mesaj</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>@item.LessonCode</td>
+                                                <td>@item.LessonName</td>
+                                                <td>11:00 - 13:00</td>
+                                                <td>Sınıf B</td>
+                                                <td>25</td>
+                                                <td>
+                                                    <a href="#" class="btn btn-warning btn-sm" onclick="StudentListModal(@item.LessonId)" class="btn btn-warning btn-sm">Öğrenciler</a>
+                                                    <a href="/course/grade/2" class="btn btn-primary btn-sm">Detaylar</a>
+                                                    <a href="/Academician/CourseManagement/EnterGrades/@item.LessonId" class="btn btn-danger btn-sm">Not Gir</a>
+
+                                                </td>
+                                                <td>
+                                                    @if (item.IsActive == true)
+                                                    {
+                                                        <a href="#" class="btn btn-success btn-sm d-flex align-items-center">
+                                                            <i class="fas fa-check-circle mr-2"></i> Aktif
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="#" class="btn btn-warning btn-sm d-flex align-items-center">
+                                                            <i class="fas fa-check-circle mr-2"></i> Pasif
+                                                        </a>
+                                                    }
+
+                                                </td>
+                                                <td>
+                                                     <a class="btn btn-success" href="/Academician/Message/SendMultiMessageToStudents/@item.LessonId"> Toplu Mesaj</a>
+
+                                                </td>
+
+                                            </tr>
+                                        }
+
+                                     </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+</div>
+
+
+
+<div id="StudentListContainer">
+</div>
+
+<script>
+    function StudentListModal(lessonId) {
+        $.ajax({
+            url: '/Academician/CourseManagement/StudentListByCourse',
+            type: 'GET',
+            data: { Id: lessonId },
+            success: function (result) {
+                $('#StudentListContainer').html(result);
+
+                $('#studentListModal').modal('show');
+            },
+            error: function (xhr, status, error) {
+                console.error('AJAX Error:', status, error);
+            }
+        });
+    }
+</script>
+
+
+
+
+
+
+

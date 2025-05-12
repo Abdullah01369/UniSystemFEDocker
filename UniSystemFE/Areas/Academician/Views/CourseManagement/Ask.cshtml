@@ -1,0 +1,56 @@
+﻿@{
+    ViewData["Title"] = "Ask";
+    Layout = "~/Areas/Academician/Views/Shared/_AcademicianLayout.cshtml";
+}
+
+<link href="/css/askgroqpage.css" rel="stylesheet">
+
+ 
+    <section class="content">
+        <div class="container">
+            <h2>SQL Query Analyzer</h2>
+            <textarea id="sqlInput" placeholder="Enter your SQL query..."></textarea>
+            <button id="analyzeBtn">Analyze</button>
+            <div class="loader" id="loader" style="display: none;"></div>
+            <div id="resultBox" class="result"></div>
+        </div>
+    </section>
+ 
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#analyzeBtn").click(function () {
+            var userQuestion = $("#sqlInput").val().trim();
+
+            if (userQuestion === "") {
+                alert("Lütfen bir SQL sorgusu girin.");
+                return;
+            }
+
+            $("#loader").show();   
+            $("#resultBox").hide().html(""); 
+
+            $.ajax({
+                type: "POST",
+                url: "/Academician/CourseManagement/Ask",
+                data: { prompt: userQuestion },
+                dataType: "json",
+                success: function (response) {
+                    $("#loader").hide();  // Loader'ı gizle
+
+                    if (response && response.success) {
+                        $("#resultBox").html(`<pre>${response.data}</pre>`).fadeIn();
+                    } else {
+                        alert(response.message || "Beklenmeyen bir hata oluştu.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    $("#loader").hide();
+                    console.error("AJAX Hatası:", status, error);
+                    alert("Sunucuda bir hata oluştu. Lütfen tekrar deneyin.");
+                }
+            });
+        });
+    });
+</script>

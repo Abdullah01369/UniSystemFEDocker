@@ -1,0 +1,439 @@
+﻿@using SharedLayer.ViewModels
+@model IEnumerable<StudentExamListResponseModel>
+@{
+    ViewData["Title"] = "EnterGrades";
+    Layout = "~/Areas/Academician/Views/Shared/_AcademicianLayout.cshtml";
+}
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Grade Entry</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
+    <link href="~/css/entrygradestyle.css" rel="stylesheet" />
+</head>
+
+<body>
+
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Notu Güncelle</h5>
+                    <button onclick="" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editForm">
+                        <input type="hidden" id="studentId">
+                        <div class="form-group">
+                            <label for="newScore" class="col-form-label">Yeni Not:</label>
+                            <input type="number" class="form-control" id="newScore" min="0" max="100">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">İptal</button>
+                    <button onclick="SaveGrade()" type="button" class="btn btn-primary" id="saveEditButton">Kaydet</button>  @* buraya toplu kapsamlı bir metot yaz *@
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                @ViewBag.LessonName DERSİ NOT GİRİŞ EKRANI
+            </div>
+            <div class="card-body">
+                <div class="search-bar">
+                    <input type="text" id="searchInput" class="form-control search-input" placeholder="Öğrenci adı soyadı veya numarasına göre arama yapabilirsiniz">
+                </div>
+                <div class="filter-bar">
+                    <button class="filter-button" id="filterPassed"><i class="fas fa-check-circle"></i> Geçenleri Göster</button>
+                    <button class="filter-button" id="filterFailed"><i class="fas fa-times-circle"></i> Kalanları Göster</button>
+                    <button class="filter-button" id="filterAll"><i class="fas fa-list"></i> Hepsini Göster</button>
+
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th><i class="fas fa-id-badge"></i>Öğrenci Numarası</th>
+                                <th><i class="fas fa-user-graduate"></i>Ad-Soyad</th>
+                                <th><i class="fas fa-file-signature"></i>Vize</th>
+                                <th><i class="fas fa-file-signature"></i> Final</th>
+                                <th><i class="fas fa-file-signature"></i>Büt</th>
+                                <th><i class="fas fa-clipboard-check"></i>Harf Durumu</th>
+                                <th><i class="fas fa-chart-line"></i> Ortalama</th>
+                                <th><i class="fas fa-check-circle"></i> Geçti/Kaldı</th>
+                                <th><i class="fas fa-edit"></i> Güncelle</th>
+                            </tr>
+                        </thead>
+                        <tbody id="gradeTableBody">
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.StudentNo</td>
+                                    <td>@item.Name @item.Surname</td>
+                                    <td>
+                                        <input type="number" class="form-control grade-input" min="0" max="100" value="@item.MidtermExamScore" disabled>
+                                        @if (item.IsChangeableMidterm==true)
+                                        {
+                                            <button onclick="TakeTableInfo()" class="btn-edit" data-toggle="modal" data-target="#editModal" data-examid="@item.Id" data-type="midterm" data-id="@item.StudentNo"><i class="fas fa-pencil-alt"></i></button>
+
+                                        }
+                                        else
+                                        {
+                                            <button disabled><i class="fas fa-pencil-alt"></i></button>
+
+                                        }
+                                    </td>
+                                    <td>
+
+                                        <input type="number" class="form-control grade-input" min="0" max="100" value="@item.FinalExamScore" disabled>
+                                        @if (item.IsChangeableFinal==true)
+                                        {
+                                            <button onclick="TakeTableInfo()" class="btn-edit" data-toggle="modal" data-target="#editModal" data-examid="@item.Id" data-type="final" data-id="@item.StudentNo"><i class="fas fa-pencil-alt"></i></button>
+                                        }
+                                        else
+                                        {
+                                            <button disabled><i class="fas fa-pencil-alt"></i></button>
+
+                                        }
+                                       
+                                    </td>
+                                    <td>
+                                        @if (item.CanTakeBut==true)
+                                        {
+
+                                            <input type="number" class="form-control grade-input" min="0" max="100" value="@item.ButExamScore" disabled>
+                                            @if (true)
+                                            {
+                                                <button onclick="TakeTableInfo()" class="btn-edit" data-toggle="modal" data-target="#editModal" data-examid="@item.Id" data-type="makeup" data-id="@item.StudentNo"><i class="fas fa-pencil-alt"></i></button>
+
+                                            }
+                                            else
+                                            {
+                                                <button disabled><i class="fas fa-pencil-alt"></i></button>
+
+                                            }
+                                        }
+                                        else
+                                        {
+                                          <p>--</p>   
+                                        }
+                                     
+                                    </td>
+                                    <td><input type="text" class="form-control" data-examid="@item.Id" disabled value="@item.Flag"></td>
+                                    <td><input type="text" class="form-control" data-examid="@item.Id" disabled value="@item.Score"></td>
+                                    @if (item.IsPassed == true)
+                                    {
+                                        <td><input type="text" class="form-control" data-examid="@item.Id" disabled value="Geçti"></td>
+                                    }
+                                    @if (item.IsPassed == false)
+                                    {
+                                        <td><input type="text" class="form-control" data-examid="@item.Id" disabled value="Kaldı"></td>
+                                    }
+                                    @if (item.IsPassed == null)
+                                    {
+                                        <td><input type="text" class="form-control" data-examid="@item.Id" disabled value=""></td>
+                                    }
+                                    <td><button class="btn btn-update"><i class="fas fa-save"></i> Güncelle</button></td>
+                                </tr>
+                            }
+                        </tbody>
+
+                    </table>
+                </div>
+                <button class="btn btn-save-all" id="saveAllButton"><i class="fas fa-save"></i>Hepsini Kaydet</button>
+                <div class="error-message" id="error-message">0-100 arası not girilmelidir,boş geçilemez!</div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+<script>
+
+    let editType, studentId, examid;
+
+    $('#searchInput').on('input', function () {
+        const searchTerm = $(this).val().toLowerCase();
+        $('#gradeTableBody tr').each(function () {
+            const studentNumber = $(this).find('td').eq(0).text().toLowerCase();
+            const name = $(this).find('td').eq(1).text().toLowerCase();
+            $(this).toggle(studentNumber.includes(searchTerm) || name.includes(searchTerm));
+        });
+    });
+
+    // Filter by pass/fail status
+    $('#filterPassed').on('click', function () {
+        $('#gradeTableBody tr').each(function () {
+            const passFail = $(this).find('input').eq(5).val();
+            $(this).toggle(passFail === 'Geçti');
+        });
+    });
+
+    $('#filterFailed').on('click', function () {
+        $('#gradeTableBody tr').each(function () {
+            const passFail = $(this).find('input').eq(5).val();
+            $(this).toggle(passFail === 'Kaldı');
+        });
+    });
+
+    $('#filterAll').on('click', function () {
+        $('#gradeTableBody tr').show();
+    });
+ 
+    $('.btn-edit').on('click', function () {
+        editType = $(this).data('type');
+        studentId = $(this).data('id');
+        examid = $(this).data('examid');
+ 
+        $('#editModal').modal('show');
+    });
+
+ 
+    $('#saveEditButton').on('click', function () {
+        const newScore = $('#newScore').val();
+
+        if (newScore === '' || newScore < 0 || newScore > 100) {
+            alert('Geçerli bir not girin.');
+            return;
+        }
+
+        $(`#gradeTableBody tr`).each(function () {
+            if ($(this).find('td').eq(0).text() === studentId) {
+                if (editType === 'midterm') {
+                    $(this).find('input').eq(0).val(newScore);
+
+
+                } else if (editType === 'final') {
+                    $(this).find('input').eq(1).val(newScore);
+                } else if (editType === 'makeup') {
+                    $(this).find('input').eq(2).val(newScore);
+                }
+
+
+            }
+        });
+
+        $('#editModal').modal('hide');
+    });
+
+  
+    function SaveGrade() {
+        if (editType == "midterm") {
+          
+            SaveMidTerm();
+        }
+        if (editType == "final") {
+         
+            SaveFinal();   
+        }
+        if (editType=="makeup") {
+            SaveBut();
+        }
+     
+    };
+    function SaveBut() {
+        const newScore = $('#newScore').val();
+
+        if (newScore === '' || newScore < 0 || newScore > 100) {
+            alert('Geçerli bir not girin.');
+            return;
+        }
+
+   
+
+
+        $.ajax({
+            type: "POST",
+            url: "/Academician/CourseManagement/SaveBut",
+            contentType: 'application/x-www-form-urlencoded',
+            data: {
+                ExamId: examid,
+                StudentNo: studentId,
+                NewScore: newScore
+            },
+            success: function (response) {
+                if (response === "true") {
+
+                    alert("Büt notu başarıyla güncellendi!");
+                    location.reload();
+                } else {
+                    alert("Büt notu güncelleneMEdi!");
+                    location.reload();
+                }
+            },
+            error: function (error) {
+                console.error("Bir hata oluştu:", error);
+                alert("Büt notu güncellenirken bir hata oluştu.");
+            }
+        });
+    }
+    function SaveFinal() {
+        const newScore = $('#newScore').val();
+
+        if (newScore === '' || newScore < 0 || newScore > 100) {
+            alert('Geçerli bir not girin.');
+            return;
+        }
+
+        debugger;
+
+
+        $.ajax({
+            type: "POST",
+            url: "/Academician/CourseManagement/SaveFinal",
+            contentType: 'application/x-www-form-urlencoded',
+            data: {
+                ExamId: examid,
+                StudentNo: studentId,
+                NewScore: newScore
+            },
+            success: function (response) {
+                if (response === "true") {
+                 
+                    alert("Final notu başarıyla güncellendi!");
+                    location.reload();
+                } else {
+                    alert("Final notu güncelleneMEdi!");
+                    location.reload();
+                }
+            },
+            error: function (error) {
+                console.error("Bir hata oluştu:", error);
+                alert("Final notu güncellenirken bir hata oluştu.");
+            }
+        });
+    }
+    function SaveMidTerm() {
+        const newScore = $('#newScore').val();
+
+        if (newScore === '' || newScore < 0 || newScore > 100) {
+            alert('Geçerli bir not girin.');
+            return;
+        }
+
+        debugger;
+
+
+        $.ajax({
+            type: "POST",
+            url: "/Academician/CourseManagement/SaveMidTerm",
+            contentType: 'application/x-www-form-urlencoded',
+            data:{
+                ExamId: examid,
+                StudentNo: studentId,
+                NewScore: newScore
+            },
+            success: function (response) {
+                if (response === "true") {
+                    alert("Vize notu başarıyla güncellendi!");
+                    location.reload();
+                } else {
+                    alert("Vize notu güncelleneMEdi!");
+                    location.reload();
+                }
+            },
+            error: function (error) {
+                console.error("Bir hata oluştu:", error);
+                alert("Vize notu güncellenirken bir hata oluştu.");
+            }
+        });
+    }
+    function validateGrades() {
+        let valid = true;
+        $('#gradeTableBody .grade-input').each(function () {
+            const value = $(this).val();
+            if (value === '' || value < 0 || value > 100) {
+                valid = false;
+                return false;
+            }
+        });
+        return valid;
+    }
+    function calculateAndUpdate(row) {
+        const midterm = parseFloat(row.find('input').eq(0).val()) || 0;
+        const final = parseFloat(row.find('input').eq(1).val()) || 0;
+        const makeup = parseFloat(row.find('input').eq(2).val()) || 0;
+
+        const average = ((midterm * 0.3) + (final * 0.5) + (makeup * 0.2)).toFixed(2);
+        row.find('input').eq(4).val(average);
+
+        let gradeStatus;
+        if (average >= 90) {
+            gradeStatus = 'AA';
+        } else if (average >= 85) {
+            gradeStatus = 'BA';
+        } else if (average >= 80) {
+            gradeStatus = 'BB';
+        } else if (average >= 75) {
+            gradeStatus = 'CB';
+        } else if (average >= 70) {
+            gradeStatus = 'CC';
+        } else if (average >= 60) {
+            gradeStatus = 'DC';
+        } else if (average >= 50) {
+            gradeStatus = 'DD';
+        } else {
+            gradeStatus = 'FF';
+        }
+        row.find('input').eq(3).val(gradeStatus);
+
+        const passFail = (average >= 50) ? 'Geçti' : 'Kaldı';
+        row.find('input').eq(5).val(passFail);
+    }
+
+    $('#gradeTableBody').on('input', '.grade-input', function () {
+        const row = $(this).closest('tr');
+        if (validateGrades()) {
+            $('#error-message').hide();
+            calculateAndUpdate(row);
+        } else {
+            $('#error-message').show();
+        }
+    });
+
+    $('#gradeTableBody').on('click', '.btn-update', function () {
+        if (validateGrades()) {
+            $('#error-message').hide();
+            const row = $(this).closest('tr');
+            // Handle the update action for this specific row
+            alert(`${row.find('td').eq(1).text()} için not güncellendi.`);
+        } else {
+            $('#error-message').show();
+        }
+    });
+
+    $('#saveAllButton').on('click', function () {
+        if (validateGrades()) {
+            $('#error-message').hide();
+            // Handle the save all action
+            alert('Tüm Notlar Kaydedildi.');
+        } else {
+            $('#error-message').show();
+        }
+    });
+
+</script>
+
+</html>
+
+
+
+
+

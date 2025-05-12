@@ -1,0 +1,168 @@
+﻿
+@{
+    ViewData["Title"] = "EditCourse";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>EditCourse</h1>
+ 
+
+@using SharedLayer.Dtos
+@model CourseDto
+ 
+
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ders Ekle</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+            }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+            .form-header h2 {
+                font-weight: bold;
+            }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="form-header">
+            <h2>Ders Ekle</h2>
+            <p>Lütfen aşağıdaki bilgileri doldurun.</p>
+        </div>
+        
+            <form action="/Admin/Management/EditCourse" method="post">
+
+
+            <div asp-validation-summary=ModelOnly class="alert alert-danger" role="alert">
+            </div>
+
+
+            <input asp-for="Id" type="text" class="form-control" id="Id" name="Id" hidden  >
+
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success" role="alert">
+                    @TempData["SuccessMessage"]
+                </div>
+            }
+            @if (TempData["FailMessage"] != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @TempData["FailMessage"]
+                </div>
+            }
+            <div class="mb-3">
+                <label for="name" class="form-label">Ders Adı</label>
+                <input asp-for="Name" type="text" class="form-control" id="name" name="Name" placeholder="Ders adı girin" required>
+                <div class="invalid-feedback">
+                    Lütfen ders adını girin.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="code" class="form-label">Ders Kodu</label>
+                <input asp-for="Code" type="text" class="form-control" id="code" name="Code" placeholder="Ders kodu girin" required>
+                <div class="invalid-feedback">
+                    Lütfen ders kodunu girin.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="credits" class="form-label">Kredi</label>
+                <input asp-for="Credit" type="number" class="form-control" id="credits" name="Credit" placeholder="Ders kredisi" required min="1" max="10">
+                <div class="invalid-feedback">
+                    Lütfen geçerli bir kredi değeri girin (1-10).
+                </div>
+            </div>
+
+
+
+            <div class="mb-3">
+                <label for="DepartmentId" class="form-label">Departman</label>
+                <select class="form-select" id="department" name="DepartmentId" required>
+                    <option value="">Seçiniz...</option>
+                    @if (ViewBag.Departments != null)
+                    {
+
+                        foreach (var department in ViewBag.Departments)
+                        {
+                            <option value="@department.Id">@department.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label d-block">Durum</label>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="Status" id="active" value="true" @(ViewBag.SelectedStatus == true ? "checked" : "")>
+                    <label class="form-check-label" for="active">Aktif</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="Status" id="passive" value="false" @(ViewBag.SelectedStatus == false ? "checked" : "")>
+                    <label class="form-check-label" for="passive">Pasif</label>
+                </div>
+            </div>
+
+
+            <div class="mb-3">
+                <label for="semester" class="form-label">Dönem</label>
+                <select class="form-select" id="semester" name="Semester" required>
+                    <option value="">Seçiniz...</option>
+                    <option value="1">Güz</option>
+
+
+                </select>
+                <div class="invalid-feedback">
+                    Lütfen bir dönem seçin.
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary w-100">Ders Güncelle</button>
+            </div>
+        </form>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+</body>
+</html>
+
+
+
+

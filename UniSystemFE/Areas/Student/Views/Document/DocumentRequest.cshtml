@@ -1,0 +1,187 @@
+﻿@{
+    ViewData["Title"] = "DocumentRequest";
+    Layout = "~/Areas/Student/Views/Shared/LayoutStudent.cshtml";
+}
+@using SharedLayer.Dtos;
+@model List<DocumentListDto>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Belge Talep Sistemi</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f7f7f7;
+            font-family: Arial, sans-serif;
+        }
+
+        .page-container {
+            margin-top: 50px;
+        }
+
+        .custom-card {
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
+            padding: 20px;
+        }
+
+        .document-panel {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            border: 2px dashed #6c757d;
+            border-radius: 15px;
+            text-align: center;
+            background-color: #f8f9fa;
+        }
+
+            .document-panel h5 {
+                font-weight: bold;
+                color: #6c757d;
+            }
+
+        .list-group-item:hover {
+            background-color: #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <div class="container page-container">
+        <div class="row">
+            <!-- Sol Panel -->
+            <div class="col-md-4">
+                <div class="custom-card">
+                    <h4 class="mb-4">Belge Türünü Seçin</h4>
+                    <div class="list-group">
+                        <label class="list-group-item">
+                            <input type="radio" name="documentType" value="0" class="form-check-input me-2">
+                            Öğrenci Belgesi
+                        </label>
+                        <label class="list-group-item">
+                            <input disabled type="radio" name="documentType" value="1" class="form-check-input me-2">
+                            Transkript
+                        </label>
+                        <label class="list-group-item">
+                            <input disabled type="radio" name="documentType" value="2" class="form-check-input me-2">
+                            Askerlik Durum Belgesi
+                        </label>
+                    </div>
+                    <button onclick="TakeDoc()" id="showButton" class="btn btn-primary w-100 mt-4">Belgeyi Göster</button>
+                </div>
+            </div>
+            <!-- Sağ Panel -->
+            <div class="col-md-8">
+                <div class="document-panel">
+
+                    @if (Model.Count != 0)
+                    {
+                        <table class="table">
+                            <thead>
+                                <tr>
+
+                                    <th scope="col">Tür</th>
+                                    <th scope="col">İndir</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+
+                                        <td id="documentType">Öğrenci Belgesi</td>
+                                        <td>
+                                            <button class="btn btn-success" onclick="downloadFile(@item.Id)">İndir</button>
+
+                                           
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <h4>BELGENİZ BULUNMAMAKTA TEKRARDAN İSTEKTE BULUNUNUZ</h4>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        async function downloadFile(id) {
+            try {
+                const response = await fetch(`/Student/Document/DownloadFile/${id}`);
+                if (!response.ok) {
+                    alert("Dosya indirilemedi!");
+                    return;
+                }
+
+                const blob = await response.blob();  
+                const url = window.URL.createObjectURL(blob);  
+                const link = document.createElement("a");  
+                link.href = url;
+                link.download = "belge.pdf";  
+                document.body.appendChild(link);
+                link.click(); 
+                link.remove();  
+                window.URL.revokeObjectURL(url); 
+            } catch (error) {
+                console.error("Bir hata oluştu:", error);
+                alert("Dosya indirilemedi!");
+            }
+        }
+        function TakeDoc() {
+
+            const selectedDocument = document.querySelector('input[name="documentType"]:checked');
+            const displayArea = document.getElementById("selectedDocument");
+            var val = "0";
+            debugger;
+
+            if (selectedDocument== null) {
+                alert("Lütfen bir belge türü seçiniz");
+            }
+            if (selectedDocument.value != "0") {
+                val = "1";
+            }
+
+
+
+            $.ajax({
+                url: "/Student/Document/TakeDoc",
+
+                type: 'POST',
+                data: {
+                    DocNo: val
+
+                },
+                success: function (data) {
+                    if (data == "1") alert(`İsteğiniz alınmıştır, bir süre sonra ulaşılabilir olacaktır...`);
+                    if (data == "2") alert(`MEVCUT BELGENİZ ZATEN GÜNCEL, ORDAN İNDİRİN Bİ ZAHMET`);
+                    else alert("BİR HATA İLE KARŞILAŞILDI");
+
+
+                },
+                error: function (xhr, status, error) {
+                    alert('hata oluştu: ' + error);
+                }
+            });
+        }
+
+    </script>
+</body>
+</html>
+

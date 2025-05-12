@@ -1,0 +1,218 @@
+﻿@{
+    ViewData["Title"] = "SendMail";
+    Layout = "~/Areas/Academician/Views/Shared/_AcademicianLayout.cshtml";
+}
+@using SharedLayer.Dtos
+@model CustomResponseDto<MessageInBoxDto>
+<script src="~/js/messageaijsfile.js"></script>
+<div class="content-wrapper">
+
+    <section class="content">
+
+        <div class="container-fluid">
+            <div id="stt" class="tab-content container">
+                <h2>Sesten Yazıya Dönüştür</h2>
+                <div id="audioControls">
+                    <button class="btn btn-outline-success" id="recordButton" onclick="toggleRecording()">Kayıt Başlat</button>
+
+                </div>
+                <div id="sttStatus" class="status"></div>
+             </div>
+            <div class="row">
+
+
+                @Html.Partial("_MessageSidebarPartial")
+
+                @if (Model != null)
+                {
+                    @if (Model.Data != null)
+                    {
+                        <div class="col-md-9">
+                            <div class="card card-primary card-outline">
+                                <div class="card-header">
+                                    <h3 class="card-title">Yeni Mesaj</h3>
+                                </div>
+                                <input value="@Model.Data.Id" hidden id="DraftDelId" class="form-control">
+
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <input value="@Model.Data.ReceiverMail" id="toId" class="form-control" placeholder="To:">
+                                    </div>
+                                    <div class="form-group">
+                                        <input value="@Model.Data.Title" id="SubjectInput" class="form-control" placeholder="Subject:">
+                                    </div>
+                                    <div class="form-group">
+                                        <textarea id="compose-textarea" class="form-control" style="height: 300px">
+
+                                            @Html.Raw(Model.Data.Content)
+                                                                    </textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="btn btn-default btn-file">
+                                            <i class="fas fa-paperclip"></i> Eklenti
+                                            <input id="attachmentid" type="file" name="attachment">
+                                        </div>
+                                        <p class="help-block">Max. 32MB</p>
+                                    </div>
+                                </div>
+                                <!-- /.card-body -->
+                                <div class="card-footer">
+                                    <div class="float-right">
+                                        <button onclick="DraftMessage()" type="button" class="btn btn-default"><i class="fas fa-pencil-alt"></i> Taslak Olarak Kaydet</button>
+                                        <button onclick="SendMessage()" type="submit" class="btn btn-primary"><i class="far fa-envelope"></i> Gönder</button>
+                                    </div>
+                                    <button type="reset" class="btn btn-default"><i class="fas fa-times"></i> Sil</button>
+                                </div>
+                                <!-- /.card-footer -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="col-md-9">
+                        <div class="card card-primary card-outline">
+                            <div class="card-header">
+                                <h3 class="card-title">Yeni Mesaj</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <input id="toId" class="form-control" placeholder="To:">
+                                </div>
+                                <div class="form-group">
+                                    <input id="SubjectInput" class="form-control" placeholder="Subject:">
+                                </div>
+                                <div class="form-group">
+                                    <textarea id="compose-textarea" class="form-control" style="height: 300px">
+
+
+                                    </textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <div class="btn btn-default btn-file">
+                                        <i class="fas fa-paperclip"></i> Eklenti
+                                        <input id="attachmentid" type="file" name="attachment">
+                                    </div>
+                                    <p class="help-block">Max. 32MB</p>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                            <div class="card-footer">
+                                <div class="float-right">
+                                    <button onclick="DraftMessage()" type="button" class="btn btn-default"><i class="fas fa-pencil-alt"></i> Taslak Olarak Kaydet</button>
+                                    <button onclick="SendMessage()" type="submit" class="btn btn-primary"><i class="far fa-envelope"></i> Gönder</button>
+                                </div>
+                                <button type="reset" class="btn btn-default"><i class="fas fa-times"></i> Sil</button>
+                            </div>
+                            <!-- /.card-footer -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                }
+
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </section>
+
+</div>
+
+<script>
+    let tomessage, subject, messagearea, base64File, draft, DraftDelId;
+
+    function DraftMessage() {
+        draft = "true";
+        SendMessage();
+    };
+
+    function SendMessage() {
+        DraftDelId = $("#DraftDelId").val();
+        tomessage = $("#toId").val();
+        subject = $("#SubjectInput").val();
+        messagearea = $("#compose-textarea").val();
+        debugger;
+
+        if (!tomessage || !subject || !messagearea) {
+            alert("Lütfen tüm alanları doldurun!");
+            return;
+        }
+        var file = $('#attachmentid')[0].files[0];
+        var formData = new FormData();
+        formData.append('file', file);
+
+
+
+
+        formData.append('DraftDelId', DraftDelId);
+        formData.append('tomessage', tomessage);
+        formData.append('subject', subject);
+        formData.append('messagearea', messagearea);
+        formData.append('draft', draft);
+
+        debugger;
+
+        $.ajax({
+            type: "POST",
+            url: "/Academician/Message/SendMail",
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                if (response === "true") {
+                    alert("MAIL GÖNDERİLDİ!");
+                    window.location.href = "/academician/message/outbox";
+
+                }
+                if (response === "validation_error") {
+                    alert("Tüm Alanları Doldur!");
+                    window.location.href = "/Academician/Message/Outbox";
+
+                }
+
+                if (response === "false") {
+                    alert("HATA, Mail gönderilemedi!");
+                    window.location.href = "/Academician/Message/Outbox";
+
+                }
+                if (response === "draft_true") {
+                    alert("Taslaklara Kaydedildi!");
+                    window.location.href = "/Academician/Message/Outbox";
+
+                }
+                if (response === "HATA") {
+                    alert("Sistemsel hata, Mail gönderilemedi!");
+                    window.location.href = "/Academician/Message/Outbox";
+                }
+            },
+            error: function (error) {
+                console.error("Bir hata oluştu:", error);
+                alert("Bir hata oluştu.");
+                window.location.href = "/Academician/Message/Outbox";
+
+            }
+        });
+    }
+</script>
+
+
+
+@section Scripts {
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.js"></script>
+    <link href="~/css/sendmail.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.js"></script>
+    <script src="~/js/sendmail.js"></script>
+    <script>
+        $(function () {
+            $('#compose-textarea').summernote();
+        });
+    </script>
+}
+
+
+
+

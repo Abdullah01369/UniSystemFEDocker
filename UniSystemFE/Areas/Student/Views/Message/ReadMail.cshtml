@@ -1,0 +1,120 @@
+﻿
+@{
+    ViewData["Title"] = "ReadMail";
+    Layout = "~/Areas/Student/Views/Shared/LayoutStudent.cshtml";
+}
+
+
+ 
+
+<h1>ReadMailllll</h1>
+
+
+@using SharedLayer.Dtos
+@model CustomResponseDto<MessageInBoxDto>
+<div class="content-wrapper">
+
+    <section class="content">
+        <div class="container-fluid">
+            @if (Model.Error != null)
+            {
+                @foreach (var item in Model.Error.Errors)
+                {
+                    <p class="alert">@item</p>
+                }
+
+            }
+            <div class="row">
+                @Html.Partial("_MessageSidebarPartial")
+                <div class="col-md-9">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h3 class="card-title">Read Mail</h3>
+
+                            <div class="card-tools">
+                                <a href="#" class="btn btn-tool" data-toggle="tooltip" title="Previous"><i class="fas fa-chevron-left"></i></a>
+                                <a href="#" class="btn btn-tool" data-toggle="tooltip" title="Next"><i class="fas fa-chevron-right"></i></a>
+                            </div>
+                        </div>
+
+                        @if (Model.Data != null)
+                        {
+                            <div class="card-body p-0">
+                                <div class="mailbox-read-info">
+                                    <h5>@Model.Data.Title</h5>
+                                    <h6>
+                                        From: @Model.Data.SenderMail
+                                        <span class="mailbox-read-time float-right">@Model.Data.Date</span>
+                                    </h6>
+                                </div>
+                                <!-- /.mailbox-read-info -->
+                                <div class="mailbox-controls with-border text-center">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-container="body" title="Delete">
+                                            <i class="far fa-trash-alt"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-container="body" title="Reply">
+                                            <i class="fas fa-reply"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-container="body" title="Forward">
+                                            <i class="fas fa-share"></i>
+                                        </button>
+                                    </div>
+                                    <!-- /.btn-group -->
+                                    <button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" title="Print">
+                                        <i class="fas fa-print"></i>
+                                    </button>
+                                </div>
+                                <!-- /.mailbox-controls -->
+                                <div class="mailbox-read-message">
+
+                                    @Html.Raw(Model.Data.Content)
+
+
+
+                                </div>
+                                <!-- /.mailbox-read-message -->
+                            </div>
+
+                            <div class="card-footer bg-white">
+                                <ul class="mailbox-attachments d-flex align-items-stretch clearfix">
+                                    <li>
+                                        <span class="mailbox-attachment-icon"><i class="far fa-file-pdf"></i></span>
+
+                                        <di class="mailbox-attachment-info">
+                                            <a href="/Student/Message/DownloadFile/@Model.Data.Id" class="mailbox-attachment-name">@Model.Data.FileName<i class="fas fa-paperclip"></i> </a>
+                                            <span class="mailbox-attachment-size clearfix mt-1">
+                                                <span>-</span>
+                                                <a href="/Student/Message/DownloadFile/@Model.Data.Id" class="btn btn-default btn-sm float-right"><i class="fas fa-cloud-download-alt"></i></a>
+                                            </span>
+
+
+
+
+                                </ul>
+                            </div>
+
+                        }
+
+
+
+
+                        <!-- /.card-footer -->
+                        <div class="card-footer">
+                            <div class="float-right">
+                                <button type="button" class="btn btn-default"><i class="fas fa-reply"></i> Reply</button>
+                                <button type="button" class="btn btn-default"><i class="fas fa-share"></i> Forward</button>
+                            </div>
+                            <button type="button" class="btn btn-default"><i class="far fa-trash-alt"></i> Delete</button>
+                            <button type="button" class="btn btn-default"><i class="fas fa-print"></i> Print</button>
+                        </div>
+                        <!-- /.card-footer -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+</div>

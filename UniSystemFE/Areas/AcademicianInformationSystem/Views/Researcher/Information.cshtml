@@ -1,0 +1,82 @@
+﻿
+@{
+    ViewData["Title"] = "Information";
+    Layout = "~/Areas/AcademicianInformationSystem/Views/Shared/_ResearcherInformationLayout.cshtml";
+}
+@using SharedLayer.ViewModels
+@model ResearcherMainViewModel
+
+<div class="general-info">
+    <h2 class="section-title">Genel Bilgi</h2>
+
+    <div class="info-row">
+        <span class="info-label">Akademik Bilgi:</span>
+        <span>@Model.ResearcherInfoDto.InstitutionalInformation</span>
+    </div>
+
+    <div class="info-row">
+        <span class="info-label">WoS Araştırma Alanları:</span>
+        <span>@Model.ResearcherInfoDto.WoSResearchAreas</span>
+    </div>
+
+    <div class="info-row">
+        <span class="info-label">Özel Araştırma Alanları:</span>
+        <span> @Model.ResearcherInfoDto.SpecialResearchAreas</span>
+    </div>
+</div>
+
+<div class="metrics-section">
+    <div class="metrics-header">
+        <div class="metrics-title">
+            <i class="fas fa-chart-line"></i> Metrics
+        </div>
+        <button class="more-metrics-btn">
+            <i class="fas fa-chart-bar"></i> More metrics
+        </button>
+    </div>
+
+    <div class="metrics-grid">
+        <div class="metric-card publication-card">
+            <div class="metric-title">Publication <i class="fas fa-info-circle"></i></div>
+            <div class="metric-value">@Model.ResearchMetricDto.Publication</div>
+            <div class="metric-chart">
+                <div class="chart-circle"></div>
+            </div>
+        </div>
+
+        <div class="metric-card citation-card">
+            <div class="metric-title">Citation (WoS) <i class="fas fa-info-circle"></i></div>
+            <div class="metric-value">@Model.ResearchMetricDto.CitationWoS</div>
+        </div>
+
+        <div class="metric-card hindex-card">
+            <div class="metric-title">H-Index (WoS) <i class="fas fa-info-circle"></i></div>
+            <div class="metric-value">@Model.ResearchMetricDto.HIndexWoS</div>
+        </div>
+
+        <div class="metric-card citation-card">
+            <div class="metric-title">Citation (Scopus) <i class="fas fa-info-circle"></i></div>
+            <div class="metric-value">230</div>
+        </div>
+
+        <div class="metric-card hindex-card">
+            <div class="metric-title">H-Index (Scopus) <i class="fas fa-info-circle"></i></div>
+            <div class="metric-value">@Model.ResearchMetricDto.HIndexScopus</div>
+        </div>
+
+        <div class="metric-card citation-card">
+            <div class="metric-title">Citation (Scholar) <i class="fas fa-info-circle"></i></div>
+            <div class="metric-value">@Model.ResearchMetricDto.CitationScholar</div>
+        </div>
+
+        <div class="metric-card hindex-card">
+            <div class="metric-title">H-Index (Scholar) <i class="fas fa-info-circle"></i></div>
+            <div class="metric-value">@Model.ResearchMetricDto.HIndexScholar</div>
+        </div>
+
+        <div class="metric-card trdizin-card">
+            <div class="metric-title">Citation (TrDizin) <i class="fas fa-info-circle"></i></div>
+            <div class="metric-value">@Model.ResearchMetricDto.CitiationTrDizin</div>
+        </div>
+    </div>
+</div>

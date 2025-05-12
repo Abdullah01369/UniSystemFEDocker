@@ -1,0 +1,214 @@
+﻿@{
+    ViewData["Title"] = "GraduatePage";
+    Layout = "~/Areas/Student/Views/Shared/LayoutStudent.cshtml";
+}
+@using SharedLayer.Dtos
+@model GradutedInfoDto
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mezuniyet Durumu</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+    <link href="~/css/graduatepage.css" rel="stylesheet" />
+
+</head>
+
+
+
+<div class="container mx-auto">
+
+
+    @if (Model != null)
+    {
+        <div class="header">
+            <h1><i class="fa-solid fa-graduation-cap text-primary me-2"></i>Mezuniyet Durumu</h1>
+            <p class="text-muted">Öğrencinin mezuniyet kriterlerini aşağıda inceleyebilirsiniz.</p>
+        </div>
+
+        <div class="d-grid" style="grid-template-columns: repeat(5, 1fr); gap: 1rem;">
+            <div class="card info-card p-3 text-center bg-white">
+                <div class="icon text-info mb-2"><i class="fa-solid fa-coins"></i></div>
+                <div class="title">Toplam Kredi</div>
+                
+
+                <div class="value"> yazılacak burası <i class="fa-solid fa-check-circle text-success ms-1"></i></div>
+            </div>
+         
+            <div class="card info-card p-3 text-center bg-white">
+                <div class="icon text-info mb-2"><i class="fa-solid fa-chart-line"></i></div>
+                <div class="title">GANO</div>
+                @if (Model.IsGpaGreatherThanTwo)
+                {
+                    <div class="value">@Model.GPA<i class="fa-solid fa-check-circle text-success ms-1"></i></div>
+                }
+                else
+                {
+                    <div class="value">@Model.GPA<i class="fa-solid fa-circle-exclamation text-danger me-1"></i></div>
+                }
+            </div>
+
+            <div class="card info-card p-3 text-center bg-white">
+                <div class="icon text-warning mb-2"><i class="fa-solid fa-briefcase"></i></div>
+                <div class="title">Stajlar Tamamlandı</div>
+                @if (Model.ISOkeyIntern)
+                {
+                    <div class="value">Tamamlandı<i class="fa-solid fa-check-circle text-success ms-1"></i></div>
+                }
+                else
+                {
+                    <div class="value">Tamamlanmadı<i class="fa-solid fa-circle-exclamation text-danger me-1"></i></div>
+                }
+            </div>
+
+            <div class="card info-card p-3 text-center bg-white">
+                <div class="icon text-danger mb-2"><i class="fa-solid fa-file-circle-question"></i></div>
+                <div class="title">Eksik Not</div>
+                @if (Model.AllExamsScoreEntered)
+                {
+                    <div class="value"><i class="fa-solid fa-check-circle text-success ms-1"></i></div>
+                }
+                else
+                {
+                    <div class="value"><i class="fa-solid fa-circle-exclamation text-danger me-1"></i></div>
+                }
+            </div>
+
+            <div class="card info-card p-3 text-center bg-white">
+                <div class="icon text-success mb-2"><i class="fa-solid fa-check-double"></i></div>
+                <div class="title">Maalesef sizi mezun edemedik, kusura bakmayınız</div>
+                <div class="value">100% <i class="fa-solid fa-check-circle text-success ms-1"></i></div>
+            </div>
+        </div>
+
+     
+      
+        <div class="card mt-5 bg-white info-card">
+            <div class="card-header bg-light">
+                <strong>Detaylı Kriterler</strong>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        GANO Şartı
+                        @if (Model.IsGpaGreatherThanTwo)
+                        {
+                            <span>Gano şartı sağlandı <i class="fa-solid fa-check-circle text-success ms-1"></i></span>
+
+                        }
+                        else
+                        {
+                            <span>Gano şartı sağlanMadı <i class="fa-solid fa-circle-exclamation text-danger me-1"></i></span>
+                        }
+
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Kredi Şartı
+                        @if (Model.CreditGreather240)
+                        {
+                            <span>240 kredi şartı sağlandı <i class="fa-solid fa-check-circle text-success ms-1"></i></span>
+
+                        }
+                        else
+                        {
+                            <span>240 kredi sağlanMadı <i class="fa-solid fa-circle-exclamation text-danger me-1"></i></span>
+
+
+                        }
+
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Zorunlu Stajlar
+                        @if (Model.ISOkeyIntern)
+                        {
+                            <span>Zorunlu Stajlar Tamamlandı <i class="fa-solid fa-check-circle text-success ms-1"></i></span>
+
+                        }
+                        else
+                        {
+                            <span>Zorunlu Stajlar Tamamlanmadı<i class="fa-solid fa-circle-exclamation text-danger me-1"></i></span>
+
+
+                        }
+
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Eksik Not
+                        @if (Model.AllExamsScoreEntered)
+                        {
+                            <span>Alınan Derslerin Girilmemiş Notu Yok   <i class="fa-solid fa-check-circle text-success ms-1"></i></span>
+
+                        }
+                        else
+                        {
+                            <span>Alınan Derslerin Girilmemiş Notu Var<i class="fa-solid fa-circle-exclamation text-danger me-1"></i></span>
+
+
+                        }
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Ders Geçme
+
+                        @if (Model.IsPassedAllCourse)
+                        {
+                            <span>Alınan Derslerin Tümü Geçildi   <i class="fa-solid fa-check-circle text-success ms-1"></i></span>
+
+                        }
+                        else
+                        {
+                            <span>Alınan Derslerden Geçilemeyen Var <i class="fa-solid fa-circle-exclamation text-danger me-1"></i></span>
+
+
+                        }
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Mandatory Courses -->
+        @*     <div class="card mt-5 bg-white info-card">
+    <div class="card-header bg-light">
+    <strong>Zorunlu Dersler</strong>
+    </div>
+    <div class="card-body">
+    <ul class="list-group list-group-flush">
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+    Veri Yapıları
+    <span><i class="fa-solid fa-check-circle text-success"></i></span>
+    </li>
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+    Algoritmalar
+    <span><i class="fa-solid fa-check-circle text-success"></i></span>
+    </li>
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+    Yazılım Mühendisliği
+    <span><i class="fa-solid fa-xmark text-danger"></i></span>
+    </li>
+    </ul>
+    <small class="text-muted d-block mt-2">Yukarıdaki tüm dersler alındığında mezuniyet şartları tamamen sağlanmış olacaktır.</small>
+    </div>
+    </div> *@
+
+        @*      <!-- Final Approval -->
+    <div class="alert alert-success text-center final-banner shadow-sm">
+    <i class="fa-solid fa-award me-2"></i><strong>Tebrikler!</strong> Mezuniyet için tüm kriterler karşılandı.
+    </div> *@
+    }
+    else
+    {
+        <div class="alert alert-info">Henüz Mezuniyet Hesaplama Kaydınız Bulunamadı</div>
+    }
+</div>
+
+
+
+
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+

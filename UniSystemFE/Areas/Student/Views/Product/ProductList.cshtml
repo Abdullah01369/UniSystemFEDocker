@@ -1,0 +1,34 @@
+﻿
+@{
+    ViewData["Title"] = "ProductList";
+    Layout = "~/Areas/Student/Views/Shared/LayoutStudent.cshtml";
+}
+@using ServiceLayer.Models;
+@model List<ProductViewModel>
+
+<div class="container mt-5">
+    <h2>Ürün Listesi</h2>
+    <div class="row">
+        @foreach (var product in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <img class="card-img-top" src="data:image/png;base64,@product.PictureTxt" alt="@product.Name" />
+                    <div class="card-body">
+                        <h5 class="card-title">@product.Name</h5>
+                        <p class="card-text">@product.Declareation</p>
+                        <p class="card-text"><strong>Fiyat:</strong> @product.Price.ToString("C")</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Detaylar</a>
+                    </div>
+                    <div class="card-footer">
+                        <a href="/Student/Product/TakingCardInfo/@product.Id" class="btn btn-success">Satın Al</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+

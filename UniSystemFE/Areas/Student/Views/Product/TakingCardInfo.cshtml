@@ -1,0 +1,200 @@
+﻿
+@{
+    ViewData["Title"] = "TakingCardInfo";
+    Layout = "~/Areas/Student/Views/Shared/LayoutStudent.cshtml";
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        background-color: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .card-container {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .input-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    input[type="text"],
+    select {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+        input:focus,
+        select:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+    .expiry-group {
+        display: flex;
+        gap: 10px;
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+</style>
+
+ 
+ 
+ @using ServiceLayer.Models
+    @model CardInfoModel
+
+<div class="card-container">
+    <h2>Kart Bilgilerinizi Girin</h2>
+    <form asp-action="TakingCardInfo" asp-controller="Product" asp-area="Student" method="post">
+
+  
+        <div class="input-group">
+            @Html.LabelFor(m => m.name, "Kart Üzerindeki Ad")
+            @Html.TextBoxFor(m => m.name, new { @placeholder = "Ad", @required = "required" })
+        </div>
+
+        <div class="input-group">
+            @Html.LabelFor(m => m.surname, "Kart Üzerindeki Soyad")
+            @Html.TextBoxFor(m => m.surname, new { @placeholder = "Soyad", @required = "required" })
+        </div>
+
+        <div class="input-group">
+            @Html.LabelFor(m => m.cardno, "Kart Numarası")
+            @Html.TextBoxFor(m => m.cardno, new { @placeholder = "1234 5678 9123 4567", @maxlength = "19", @required = "required" })
+        </div>
+
+        <div class="input-group">
+            <label for="expiry-date">Son Kullanım Tarihi</label>
+            <div class="expiry-group">
+                <select id="month" name="month" required>
+                    <option value="" disabled selected>Ay</option>
+                    <option value="01">01</option>
+                    <option value="02">02</option>
+                    <option value="03">03</option>
+                    <option value="04">04</option>
+                    <option value="05">05</option>
+                    <option value="06">06</option>
+                    <option value="07">07</option>
+                    <option value="08">08</option>
+                    <option value="09">09</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                </select>
+
+                <select id="year" name="year" required>
+                    <option value="" disabled selected>Yıl</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                    <option value="2026">2026</option>
+                    <option value="2027">2027</option>
+                    <option value="2028">2028</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="input-group">
+            @Html.LabelFor(m => m.cvc, "CVC")
+            @Html.TextBoxFor(m => m.cvc, new { @placeholder = "123", @maxlength = "3", @required = "required" })
+        </div>
+
+        <button type="submit">Gönder</button>
+    </form>
+</div>
+
+
+
+@* <script>
+    
+    function SendInfo() {
+        var cvc = $('#cvc').val();
+        var name = $('#name').val();
+        var surname = $('#surname').val();
+        var month = $('#month').val();
+        var year = $('#year').val();
+        var cardno = $('#cardno').val();
+
+        
+        
+        var formData = new FormData();
+        formData.append('cvc', cvc);
+        formData.append('name', name);
+        formData.append('surname', surname);
+        formData.append('month', month);
+        formData.append('year', year);
+        formData.append('cardno', cardno);
+
+        debugger;
+   
+
+        $.ajax({
+            type: "POST",
+            url: "/Student/Product/Buy",
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                debugger;
+                if (response === "true") {
+                    alert("BU İŞLEM HENÜZ TAMAMLANAMADIGINDA HİZMET VEREMEMEKTE, BİTTİĞİNDE BİLGİLENDİRİLECEKSİNİZ");
+                    // Başarılı işlemde farklı bir sayfaya yönlendirme yap
+                    window.location.href = "/Student/Product/BuySuccess";
+                }
+                window.location.href = "/Student/Product/BuyGetCode";
+            },
+            error: function (error) {
+                console.error("Bir hata oluştu:", error);
+                alert("Bir hata oluştu.");
+
+            }
+        });
+    }
+</script> *@
+ 
+ 

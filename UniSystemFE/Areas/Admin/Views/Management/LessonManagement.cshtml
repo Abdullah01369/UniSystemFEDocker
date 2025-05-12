@@ -1,0 +1,214 @@
+﻿@{
+    ViewData["Title"] = "LessonManagement";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+@using SharedLayer.Dtos
+@using ServiceLayer.Models
+@model PaggingModel
+
+
+<style>
+    body {
+        background-color: #f4f6f9;
+    }
+
+    .header-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #343a40;
+        margin-bottom: 20px;
+    }
+
+    .custom-btn {
+        margin: 10px 5px;
+        font-size: 1rem;
+    }
+
+    .card {
+        border: none;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+    }
+
+    .stats-card .icon {
+        font-size: 2rem;
+        margin-right: 10px;
+        color: #007bff;
+    }
+
+    .search-bar input {
+        border-radius: 20px;
+    }
+
+    .search-bar button {
+        border-radius: 20px;
+    }
+</style>
+<div class="container">
+
+    <div class="container py-4">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="header-title">Ders Yönetimi</div>
+            <div class="search-bar d-flex">
+                <input type="text" id="searchInput" class="form-control me-2" placeholder="Ders ara...">
+                <button class="btn btn-primary"  onclick="searchTable()"><i class="fas fa-search"></i>mevcut ara</button>
+                <button class="btn btn-primary"  onclick="SearchLesson()"><i class="fas fa-search"></i>genel arama</button>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="mb-4">
+            <a href="/Admin/Management/AddCourse/" class="btn btn-success custom-btn">
+               
+                <i class="fas fa-plus-circle me-2"></i> Ders Ekle
+            </a>
+            <button class="btn btn-danger custom-btn">
+                <i class="fas fa-trash-alt me-2"></i> Ders Sil
+            </button>
+
+            <a  class="btn btn-warning custom-btn" href="/Admin/Management/EditCourse/">
+                
+
+                    <i class="fas fa-edit me-2"></i> Ders Düzenle
+               
+            </a>
+           
+            <button class="btn btn-info custom-btn">
+                <i class="fas fa-chart-bar me-2"></i> İstatistikler
+            </button>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card p-3 d-flex align-items-center stats-card">
+                    <div class="icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div>
+                        <h5>Toplam Ders</h5>
+                        <p class="mb-0">@ViewBag.CourseSum</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card p-3 d-flex align-items-center stats-card">
+                    <div class="icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div>
+                        <h5>Aktif Dersler</h5>
+                        <p class="mb-0">@ViewBag.CourseActive</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card p-3 d-flex align-items-center stats-card">
+                    <div class="icon">
+                        <i class="fas fa-times-circle"></i>
+                    </div>
+                    <div>
+                        <h5>Pasif Dersler</h5>
+                        <p class="mb-0">@ViewBag.CoursePassive</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card p-3 d-flex align-items-center stats-card">
+                    <div class="icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div>
+                        <h5>Ortalama Katılım</h5>
+                        <p class="mb-0">85%</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @if (Model != null)
+        {
+            <div class="card">
+                <div class="card-header bg-primary text-white">Ders Listesi</div>
+                <div class="mb-4">
+                    <button onclick="loadPage()" class="btn btn-success custom-btn">
+                        <i class="fas fa-accessible-icon"></i> Tüm Dersler
+                    </button>
+                </div>
+
+               
+                <div id="tableContainer">
+                    @Html.Partial("_CourseTablePartial", Model)
+                </div>
+
+            </div>
+        }
+        else
+        {
+            <div class="alert-default-warning">
+
+                BEKLEMEDİĞİMİZ BİR HATA OLDU AMA HALLEDERİZ, ŞİMDİLİK DURUM BU
+
+            </div>
+        }
+
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+    <script>
+        function searchTable() {
+            const input = document.getElementById("searchInput").value.toLowerCase();
+            const table = document.getElementById("dersTable");
+            const rows = table.getElementsByTagName("tr");
+
+            for (let i = 1; i < rows.length; i++) {
+                const row = rows[i];
+                const cells = row.getElementsByTagName("td");
+                let match = false;
+                for (let j = 0; j < cells.length; j++) {
+                    if (cells[j].innerText.toLowerCase().includes(input)) {
+                        match = true;
+                        break;
+                    }
+                }
+                row.style.display = match ? "" : "none";
+            }
+        }
+
+        function loadPage(pageNumber) {
+            $.ajax({
+                url: '/Admin/Management/PaggingTable',
+                type: 'GET',
+                data: { pageNumber: pageNumber },
+                success: function (response) {
+                    $('#tableContainer').html(response); 
+                },
+                error: function () {
+                    alert('Sayfa yüklenemedi, lütfen tekrar deneyin.');
+                }
+            });
+        }
+
+        function SearchLesson() {
+
+            const inputval = document.getElementById("searchInput").value.toLowerCase();
+
+            $.ajax({
+                url: '/Admin/Management/SearchLesson',
+                type: 'GET',
+                data: { input: inputval },
+                success: function (response) {
+                    $('#tableContainer').html(response);
+                },
+                error: function () {
+                    alert('Sayfa yüklenemedi, lütfen tekrar deneyin.');
+                }
+            });
+        }
+ 
+    </script>
+
+</div>

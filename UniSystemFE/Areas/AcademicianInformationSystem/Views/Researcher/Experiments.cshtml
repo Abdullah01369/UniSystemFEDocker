@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewData["Title"] = "Experiments";
+    Layout = "~/Areas/AcademicianInformationSystem/Views/Shared/_ResearcherInformationLayout.cshtml";
+}
+
+ @using SharedLayer.Dtos
+ @model List<ResearcherExp>
+ 
+<div class="section">
+    <h2 class="section-title">Deneyim</h2>
+
+ 
+
+    @if (Model!=null)
+    {
+        @foreach (var item in Model)
+        {
+            <div class="item">
+                <div class="item-period">@item.DateBeg - @item.DateEnd</div>
+                <h4 class="item-title">@item.Duty - @item.Name</h4>
+                <div class="item-subtitle">@item.Universty</div>
+            </div>
+        }
+    }
+ 
+  
+  
+ 
+</div>

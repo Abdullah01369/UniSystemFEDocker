@@ -1,0 +1,267 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using Newtonsoft.Json
+@using SharedLayer.Dtos
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>Malibu Üniversitesi</title>
+
+    <script src="https://cdn.babylonjs.com/babylon.js"></script>
+    <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="~/FrontendSource/plugins/fontawesome-free/css/all.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="~/FrontendSource/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/FrontendSource/dist/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+
+    @{
+
+        var userInfoJson = HttpContextAccessor.HttpContext.Session.GetString("UserInfo");
+        UserInfoModel userInfo = null;
+
+        if (!string.IsNullOrEmpty(userInfoJson))
+        {
+            userInfo = JsonConvert.DeserializeObject<UserInfoModel>(userInfoJson);
+        }
+    }
+    <div class="wrapper">
+
+        
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <!-- Brand Logo -->
+            <a   class="brand-link">X
+                <img src="~/frontendsource/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+                     style="opacity: .8">
+                <span class="brand-text font-weight-light">Üniversite</span>
+            </a>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Sidebar user panel (optional) -->
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="image">
+                        <img src="~/frontendsource/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                    </div>
+                    <div class="info">
+                        @if (userInfo != null)
+                        {
+                            <a   class="d-block">@userInfo.UserName</a>
+                        }
+                        else
+                        {
+                            <a  class="d-block">Kullanıcı bilgisi bulunamadı</a>
+                        }
+                    </div>
+                </div>
+
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <!-- Add icons to the links using the .nav-icon class
+                             with font-awesome or any other icon font library -->
+
+                        <li class="nav-item">
+                            <a href="/Student/Home/Index" class="nav-link">
+                                <i class="nav-icon fa fa-home"></i>
+                                <p>
+                                    ANASAYFA
+
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="viewPdfBtn" class="nav-link">
+                                <i class="nav-icon fa fa-book"></i>
+                                <p>
+                                    DERS PROGRAMI
+
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Student/Home/LessonList" class="nav-link">
+                                <i class="nav-icon fa fa-search"></i>
+                                <p>
+                                    NOT SORGU
+
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Student/Home/InternPage" class="nav-link">
+                                <i class="nav-icon fa fa-home"></i>
+                                <p>
+                                    STAJ
+
+                                </p>
+                            </a>
+                        </li>
+
+
+                        <li class="nav-item">
+                            <a href="/Student/Home/GraduatePage" class="nav-link">
+                                <i class="nav-icon fa fa-graduation-cap"></i>
+                                <p>
+                                    MEZUNİYET
+
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Student/Document/DocumentRequest" class="nav-link">
+                                <i class="nav-icon fa fa-clipboard"></i>
+                                <p>
+                                    BELGE İSTEK
+
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="pages/widgets.html" class="nav-link">
+                                <i class="nav-icon fa fa-home"></i>
+                                <p>
+                                    DERS DURUM
+
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Student/Message/SendMail" class="nav-link">
+                                <i class="nav-icon fas fa-envelope"></i>
+                                <p>
+                                    MESAJLAR
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Student/Product/ProductList" class="nav-link">
+                                <i class="nav-icon fas fa-box"></i>
+                                <p>
+                                    ÜRÜNLER
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Student/Profile/MyProfile" class="nav-link">
+                                <i class="nav-icon fas fa-user"></i>
+                                <p>
+                                    PROFİLİM
+                                </p>
+                            </a>
+                        </li>
+
+
+                        <li class="nav-item">
+                            <a href="/Home/Logout" class="nav-link">
+                                <i class="nav-icon fas fa-sign-out-alt"></i>
+                                <p>
+                                    ÇIKIŞ
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+     
+       
+           
+            @RenderBody()
+ 
+        
+      
+
+
+        
+
+  
+
+        <!-- /.content-wrapper -->
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+        </aside>
+        <!-- /.control-sidebar -->
+        <!-- Main Footer -->
+        <footer class="main-footer">
+            <strong>Copyright &copy; 2014-2019 <a href="">UniSystem</a>UniSystem</strong>
+            All rights reserved.
+            <div class="float-right d-none d-sm-inline-block">
+                <b>Version</b> 3.0.4
+            </div>
+        </footer>
+    </div>
+
+
+
+
+    <script src="~/FrontendSource/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="~/FrontendSource/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- overlayScrollbars -->
+    <script src="~/FrontendSource/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/FrontendSource/dist/js/adminlte.js"></script>
+
+    <!-- OPTIONAL SCRIPTS -->
+    <script src="~/FrontendSource/dist/js/demo.js"></script>
+
+    <!-- PAGE PLUGINS -->
+    <!-- jQuery Mapael -->
+    <script src="~/FrontendSource/plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
+    <script src="~/FrontendSource/plugins/raphael/raphael.min.js"></script>
+    <script src="~/FrontendSource/plugins/jquery-mapael/jquery.mapael.min.js"></script>
+    <script src="~/FrontendSource/plugins/jquery-mapael/maps/usa_states.min.js"></script>
+    <!-- ChartJS -->
+    <script src="~/FrontendSource/plugins/chart.js/Chart.min.js"></script>
+
+    <!-- PAGE SCRIPTS -->
+    <script src="~/FrontendSource/dist/js/pages/dashboard2.js"></script>
+</body>
+</html>
+
+
+@RenderSection("Scripts", required: false)
+
+
+
+<script>
+
+    document.getElementById("viewPdfBtn").addEventListener("click", function () {
+
+        $.ajax({
+            url: '/Student/Home/DownladLessonProgram',
+            xhrFields: {
+                responseType: 'blob'
+            },
+            success: function (response) {
+
+                var url = window.URL.createObjectURL(response);
+                window.open(url, '_blank');
+                window.URL.revokeObjectURL(url);
+            },
+            error: function (xhr, status, error) {
+                console.error("Hata:", error);
+                alert("PDF dosyası indirilemedi.");
+            }
+        });
+    });
+
+
+
+</script>

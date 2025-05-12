@@ -1,0 +1,151 @@
+﻿@{
+    ViewData["Title"] = "Metaverse";
+    Layout = "~/Areas/Student/Views/Shared/LayoutStudent.cshtml";
+}
+
+<h1>Metaverse</h1>
+
+@{
+    ViewData["Title"] = "Metaverse Kampüsü";
+}
+<h2>Metaverse Kampüsü</h2>
+
+
+<div class="content-wrapper">
+
+    <section class="content">
+        <canvas id="renderCanvas" width="1000" height="600"></canvas>
+
+    </section>
+</div>    
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Kampüs Metaverse</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+ 
+    
+    
+   
+  
+    <body>
+        <canvas id="renderCanvas"></canvas>
+        <script src="https://cdn.babylonjs.com/babylon.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var canvas = document.getElementById("renderCanvas");
+                var engine = new BABYLON.Engine(canvas, true);
+                var scene = new BABYLON.Scene(engine);
+
+                // Kamera
+                var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 1, -30), scene);
+                camera.setTarget(BABYLON.Vector3.Zero());
+                camera.attachControl(canvas, true);
+
+                // Işık
+                var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
+
+                // Zemin (Ground)
+                var ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 150, height: 150 }, scene);
+                ground.material = new BABYLON.StandardMaterial("groundMat", scene);
+                ground.material.diffuseColor = new BABYLON.Color3(0.1, 0.7, 0.1);  // Yeşil zemin
+
+                // Okul Binası
+                var school = BABYLON.MeshBuilder.CreateBox("school", { height: 10, width: 20, depth: 15 }, scene);
+                school.position = new BABYLON.Vector3(0, 5, 10);
+                school.material = new BABYLON.StandardMaterial("schoolMat", scene);
+                school.material.diffuseColor = new BABYLON.Color3(0.8, 0.7, 0.6);  // Okul binası rengi
+
+                // Ağaçlar
+                var treeTrunk = BABYLON.MeshBuilder.CreateCylinder("treeTrunk", { height: 10, diameter: 1 }, scene);
+                treeTrunk.position = new BABYLON.Vector3(10, 5, -10);
+                treeTrunk.material = new BABYLON.StandardMaterial("treeTrunkMat", scene);
+                treeTrunk.material.diffuseColor = new BABYLON.Color3(0.5, 0.3, 0.1);  // Kahverengi gövde
+
+                var treeLeaves = BABYLON.MeshBuilder.CreateSphere("treeLeaves", { diameter: 8 }, scene);
+                treeLeaves.position = new BABYLON.Vector3(10, 13, -10);
+                treeLeaves.material = new BABYLON.StandardMaterial("treeLeavesMat", scene);
+                treeLeaves.material.diffuseColor = new BABYLON.Color3(0.1, 0.6, 0.1);  // Yeşil yapraklar
+
+                // Kantin
+                var canteen = BABYLON.MeshBuilder.CreateBox("canteen", { height: 6, width: 12, depth: 8 }, scene);
+                canteen.position = new BABYLON.Vector3(-20, 3, -30);
+                canteen.material = new BABYLON.StandardMaterial("canteenMat", scene);
+                canteen.material.diffuseColor = new BABYLON.Color3(0.7, 0.4, 0.1);  // Kantin binası
+
+                // Evler
+                var house = BABYLON.MeshBuilder.CreateBox("house", { height: 8, width: 10, depth: 10 }, scene);
+                house.position = new BABYLON.Vector3(30, 4, -50);
+                house.material = new BABYLON.StandardMaterial("houseMat", scene);
+                house.material.diffuseColor = new BABYLON.Color3(0.6, 0.3, 0.2);  // Ev rengi
+
+                // Kullanıcı Avatarları (Mixamo’dan alınan avatarlar)
+            var userModel = 'https://modelviewer.dev/assets/astronaut.glb';  // Gerçek avatar linki
+                var user = BABYLON.SceneLoader.ImportMesh("", userModel, "", scene, function (meshes) {
+                    var avatar = meshes[0];
+                    avatar.position = new BABYLON.Vector3(0, 5, 0);  // Avatar konumu
+                });
+
+                // Kullanıcı Hareketi (Ok tuşlarıyla)
+                window.addEventListener("keydown", function (event) {
+                    var moveSpeed = 0.5;
+                    if (event.key === "ArrowUp") {
+                        camera.position.z += moveSpeed;
+                    } else if (event.key === "ArrowDown") {
+                        camera.position.z -= moveSpeed;
+                    } else if (event.key === "ArrowLeft") {
+                        camera.position.x -= moveSpeed;
+                    } else if (event.key === "ArrowRight") {
+                        camera.position.x += moveSpeed;
+                    }
+                });
+
+                engine.runRenderLoop(function () {
+                    scene.render();
+                });
+
+                window.addEventListener("resize", function () {
+                    engine.resize();
+                });
+            });
+        </script>
+    </body>
+ 
+
+ 
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

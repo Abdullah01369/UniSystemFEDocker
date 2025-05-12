@@ -1,0 +1,115 @@
+﻿
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kişi -  Research Information System</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap">
+    <link href="~/css/_researcherlayout.css" rel="stylesheet" />
+    <script src="~/js/researcher.js"></script>
+    <link href="~/css/researcher.css" rel="stylesheet" />
+
+    <style>
+
+        .background-logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Tam ortaya al */
+            width: 50%; /* Sayfanın %50'si kadar genişlik */
+            max-width: 800px; /* Maksimum genişlik (çok büyük olmaması için) */
+            opacity: 0.1; /* Soluk görünmesini sağla */
+            pointer-events: none; /* Tıklanamaz hale getir */
+
+        }
+    </style>
+</head>
+<body>
+ 
+    <div class="sidebar">
+        <div class="profile-section">
+            <div class="profile-image">
+                <img src="https://w0.peakpx.com/wallpaper/796/637/HD-wallpaper-tarkan-turkish-singer-portrait-hoot-monochrome-black-jacket-husamettin-tarkan-tevetoglu.jpg" alt=" ">
+            </div>
+            <div class="profile-details">
+                <h2 class="profile-name">@TempData["ResearcherNameSurname"]</h2>
+                <div class="social-icons">
+                    <div class="social-icon social-google" title="Google Scholar">G</div>
+                    <div class="social-icon social-scopus" title="Scopus">SC</div>
+                    <div class="social-icon social-orcid" title="ORCID">ID</div>
+                    <div class="social-icon social-publons" title="Publons">P</div>
+                    <div class="social-icon social-wos" title="Web of Science">W</div>
+                </div>
+            </div>
+        </div>
+        
+        <ul class="nav-menu">
+            <li><a href="/AcademicianInformationSystem/Researcher/Index"><i class="fas fa-desktop"></i> Ana Panel</a></li>
+            <li><a href="/AcademicianInformationSystem/Researcher/Information"><i class="fas fa-home"></i> Ana Sayfa</a></li>
+            <li><a href="/AcademicianInformationSystem/Researcher/AcademicInformation"><i class="fas fa-graduation-cap"></i> Akademik Bilgi</a></li>
+            <li><a href="/AcademicianInformationSystem/Researcher/WorkAreas"><i class="fas fa-flask"></i> Çalışma Alanları</a></li>
+            <li><a href="/AcademicianInformationSystem/Researcher/Experiments"><i class="fas fa-briefcase"></i>Deneyim</a></li>
+            <li><a href="/AcademicianInformationSystem/Researcher/Publication"><i class="fas fa-book"></i> Yayınlar</a></li>
+            <li><a href="/AcademicianInformationSystem/Researcher/PatientProjects"><i class="fas fa-lightbulb"></i>Proje-Pantent-Dizayn</a></li>
+            <li><a href="/AcademicianInformationSystem/Researcher/ScienceWorks"><i class="fas fa-users"></i>Bilimsel Çalışmalar</a></li>
+            <li><a href="/AcademicianInformationSystem/Researcher/Achievement"><i class="fas fa-award"></i> Başarılar </a></li>
+            <li><a href="/AcademicianInformationSystem/Researcher/Announcement"><i class="fas fa-bullhorn"></i>Duyurular</a></li>
+            <li><a href="/AcademicianInformationSystem/Researcher/Contact"><i class="fas fa-envelope"></i> İletişim</a></li>
+        </ul>
+        
+        <a href="/AcademicianInformationSystem/Researcher/DownloadCV" class="download-btn">
+            <i class="fas fa-download"></i>   CV İndir
+        </a>
+    </div>
+
+    <img src="~/img/logouni.png" alt="Logo" class="background-logo">
+
+    <div class="main-content">
+         <div class="header">
+            <div class="logo">
+                <div class="logo-image">
+                 
+                
+                   
+                </div>
+
+                <div class="logo-text">
+                    <div class="logo-title">My University</div>
+                    <div class="logo-subtitle">Research Information System</div>
+                </div>
+            </div>
+
+            
+        </div>
+        <div class="background-logo">
+          
+        </div>
+
+        @RenderBody()
+    </div>
+
+ 
+    <script>
+        document.querySelectorAll('.social-icon').forEach(icon => {
+            icon.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+        
+        document.querySelector('.more-metrics-btn').addEventListener('click', function() {
+            alert('Loading more metrics...');
+        });
+    </script>
+</body>
+</html>
+ 

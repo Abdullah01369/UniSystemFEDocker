@@ -1,0 +1,513 @@
+﻿
+@{
+    ViewData["Title"] = "InternPage";
+    Layout = "~/Areas/Student/Views/Shared/LayoutStudent.cshtml";
+}
+
+<h1>InternPage</h1>
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stajlar - Öğrenci Staj Başvuru Sistemi</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
+    <!-- Bootstrap Datepicker -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --success-color: #27ae60;
+            --warning-color: #e67e22;
+            --danger-color: #e74c3c;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        .navbar {
+            background: linear-gradient(to right, #3498db, #2980b9);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            max-height: 40px;
+            margin-right: 10px;
+        }
+
+        .navbar-brand {
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border: none;
+        }
+
+        .card-header {
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 10px 10px 0 0 !important;
+            font-weight: 600;
+        }
+
+        .instructions {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--primary-color);
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 0 5px 5px 0;
+        }
+
+            .instructions li {
+                margin-bottom: 8px;
+            }
+
+                .instructions li:last-child {
+                    margin-bottom: 0;
+                }
+
+        .numbered-item {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .number-circle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            font-size: 14px;
+            font-weight: bold;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+
+        .form-section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-control, .form-select {
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            padding: 10px 15px;
+        }
+
+            .form-control:focus, .form-select:focus {
+                border-color: var(--primary-color);
+                box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+            }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+            .btn-primary:hover {
+                background-color: var(--secondary-color);
+                border-color: var(--secondary-color);
+            }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+
+            .btn-secondary:hover {
+                background-color: #5a6268;
+                border-color: #545b62;
+            }
+
+        .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+
+        .required-field::after {
+            content: "*";
+            color: red;
+            margin-left: 3px;
+        }
+
+    </style>
+</head>
+<body>
+
+
+
+    <div class="container mb-5">
+        <!-- Instructions Card -->
+        <div class="card mb-4">
+            <div class="card-header d-flex align-items-center">
+                <i class="bi bi-info-circle-fill me-2"></i>
+                <h5 class="mb-0">Staj Başvuru Talimatları</h5>
+            </div>
+            <div class="card-body">
+                <div class="instructions">
+                    <p class="fw-bold mb-2">Bu servis staj yapacak öğrencilerimiz içindir.</p>
+                    <div class="numbered-item mb-2">
+                        <span class="number-circle">1</span>
+                        <span>Stajınıza başlamadan önce "Yeni Başvuru" butonuna tıklayıp aşağıdaki tüm bilgileri doldurarak ön başvurunuzu yapmalısınız.</span>
+                    </div>
+                    <div class="numbered-item mb-2">
+                        <span class="number-circle">2</span>
+                        <span>Stajınızın onaylanıp SGK girişi ve işlemlerde sorun yaşanmaması için staj başvurunuzu staja başlama tarihinden 5 iş günü önce yapmalısınız.</span>
+                    </div>
+                    <div class="numbered-item mb-2">
+                        <span class="number-circle">3</span>
+                        <span>Başvurunuzu yaptıktan sonra listede "Yeni Başvuru" durumunda iken "Başvuru Formu" linki aktif olacaktır, bu formun çıktısını alıp staj komisyonundaki hocanıza ulaştırmanız gerekmektedir.</span>
+                    </div>
+                    <div class="numbered-item mb-2">
+                        <span class="number-circle">4</span>
+                        <span>Başvurunuzu yaptıktan sonra farkettiğiniz bir yanlışlık için staj komisyonu incelemeye almadığı sürece düzeltme yapabilirsiniz, ancak düzeltme yaptığınız takdirde tekrar çıktı alıp güncel başvurunuzu komisyondaki hocanıza ulaştırmanız gerekmektedir.</span>
+                    </div>
+                    <div class="numbered-item mb-2">
+                        <span class="number-circle">5</span>
+                        <span>Başvurunuz onaylandıktan sonra sicil fişinin çıktısını alabilirsiniz.</span>
+                    </div>
+                    <div class="numbered-item mb-2">
+                        <span class="number-circle">6</span>
+                        <span>SGK Girişiniz yapıldıktan sonra SGK Giriş Bildirgenizin çıktısını alabilirsiniz.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Application Form -->
+        <div class="card">
+            <div class="card-header d-flex align-items-center">
+                <i class="bi bi-file-earmark-text me-2"></i>
+                <h5 class="mb-0">Staj Başvuru Formu</h5>
+            </div>
+            <div class="card-body">
+                <form id="stajForm">
+                    <!-- Internship Type Section -->
+                    <div class="form-section">
+                        <h5 class="mb-3 text-primary"><i class="bi bi-briefcase me-2"></i>Staj Bilgileri</h5>
+                        <div class="row mb-3">
+                            <label class="col-md-3 col-form-label required-field">Staj Tipi</label>
+                            <div class="col-md-9">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="stajTipi" id="istegebagli" value="İsteğe Bağlı">
+                                    <label class="form-check-label" for="istegebagli">İsteğe Bağlı</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="stajTipi" id="zorunlu" value="Zorunlu" checked>
+                                    <label class="form-check-label" for="zorunlu">Zorunlu</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="program" class="col-md-3 col-form-label required-field">Program</label>
+                            <div class="col-md-9">
+                                <select class="form-select" id="program" required>
+                                    <option selected>ANADAL PROGRAMI</option>
+                                    <option>Bilgisayar Mühendisliği</option>
+                                    <option>Makine Mühendisliği</option>
+                                    <option>Elektrik-Elektronik Mühendisliği</option>
+                                    <option>Endüstri Mühendisliği</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="stajDonemi" class="col-md-3 col-form-label required-field">Staj Dönemi</label>
+                            <div class="col-md-9">
+                                <select class="form-select" id="stajDonemi" required>
+                                    <option selected>1.Staj</option>
+                                    <option>2.Staj</option>
+                                    <option>3.Staj</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="stajGunSayisi" class="col-md-3 col-form-label required-field">Staj Gün Sayısı</label>
+                            <div class="col-md-9">
+                                <input type="number" class="form-control" id="stajGunSayisi" min="1" max="90" required>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-md-3 col-form-label required-field">Haftalık Çalışma Gün Sayısı</label>
+                            <div class="col-md-9">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="haftaCalismaSayisi" id="besGun" value="5" checked>
+                                    <label class="form-check-label" for="besGun">5 Gün</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="haftaCalismaSayisi" id="altiGun" value="6">
+                                    <label class="form-check-label" for="altiGun">6 Gün</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="stajBaslamaTarihi" class="col-md-3 col-form-label required-field">Staj Başlama Tarihi</label>
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control datepicker" id="stajBaslamaTarihi" placeholder="GG/AA/YYYY" required>
+                                    <span class="input-group-text"><i class="bi bi-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="stajBitisTarihi" class="col-md-3 col-form-label required-field">Staj Bitiş Tarihi</label>
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control datepicker" id="stajBitisTarihi" placeholder="GG/AA/YYYY" required>
+                                    <span class="input-group-text"><i class="bi bi-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Workplace Information Section -->
+                    <div class="form-section">
+                        <h5 class="mb-3 text-primary"><i class="bi bi-building me-2"></i>İş Yeri Bilgileri</h5>
+                        <div class="row mb-3">
+                            <label for="isYeriAdi" class="col-md-3 col-form-label required-field">İş Yeri Adı</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="isYeriAdi" required>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="isyeriIl" class="col-md-3 col-form-label required-field">İşyeri İl/Ülke</label>
+                            <div class="col-md-9">
+                                <select class="form-select" id="isyeriIl" required>
+                                    <option selected>KAYSERİ</option>
+                                    <option>ANKARA</option>
+                                    <option>İSTANBUL</option>
+                                    <option>İZMİR</option>
+                                    <option>BURSA</option>
+                                    <option>ANTALYA</option>
+                                    <option>DİĞER</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="isYeriFaaliyetAlani" class="col-md-3 col-form-label required-field">İş Yeri Faaliyet Alanı</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="isYeriFaaliyetAlani" required>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="isYeriEposta" class="col-md-3 col-form-label required-field">İş Yeri E-Posta</label>
+                            <div class="col-md-9">
+                                <input type="email" class="form-control" id="isYeriEposta" required>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="isYeriTelefon" class="col-md-3 col-form-label required-field">İş Yeri Telefon</label>
+                            <div class="col-md-9">
+                                <input type="tel" class="form-control" id="isYeriTelefon" required>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="isYeriAdresi" class="col-md-3 col-form-label required-field">İş Yeri Adresi</label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" id="isYeriAdresi" rows="3" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Health Insurance Section -->
+                    <div class="form-section">
+                        <h5 class="mb-3 text-primary"><i class="bi bi-shield-plus me-2"></i>Sağlık Sigortası Bilgileri</h5>
+                        <div class="row mb-4">
+                            <label class="col-md-3 col-form-label required-field">Genel Sağlık Sigortası</label>
+                            <div class="col-md-9">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="saglikSigortasi" id="var" value="Var">
+                                    <label class="form-check-label" for="var">Var</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="saglikSigortasi" id="yok" value="Yok" checked>
+                                    <label class="form-check-label" for="yok">Yok</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Buttons -->
+                    <div class="row mt-4">
+                        <div class="col-md-6 offset-md-3">
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                                <button type="button" class="btn btn-secondary" id="geriDon">
+                                    <i class="bi bi-arrow-left me-1"></i> Geri Dön
+                                </button>
+                                <button type="submit" class="btn btn-primary" id="basvur">
+                                    <i class="bi bi-check2-circle me-1"></i> Başvur
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2025 Stajlar - Öğrenci Staj Başvuru Sistemi. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Bootstrap Datepicker -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.tr.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Initialize datepickers
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                language: 'tr',
+                autoclose: true,
+                todayHighlight: true
+            });
+
+            // Form validation and submission
+            $('#stajForm').on('submit', function (e) {
+                e.preventDefault();
+
+                // Simple form validation
+                let isValid = true;
+                $('.form-control, .form-select').each(function () {
+                    if ($(this).prop('required') && !$(this).val()) {
+                        $(this).addClass('is-invalid');
+                        isValid = false;
+                    } else {
+                        $(this).removeClass('is-invalid');
+                    }
+                });
+
+                if (!$('input[name="stajTipi"]:checked').val()) {
+                    $('input[name="stajTipi"]').addClass('is-invalid');
+                    isValid = false;
+                }
+
+                if (!$('input[name="haftaCalismaSayisi"]:checked').val()) {
+                    $('input[name="haftaCalismaSayisi"]').addClass('is-invalid');
+                    isValid = false;
+                }
+
+                if (!$('input[name="saglikSigortasi"]:checked').val()) {
+                    $('input[name="saglikSigortasi"]').addClass('is-invalid');
+                    isValid = false;
+                }
+
+                // If form is valid
+                if (isValid) {
+                    // Display success message (in a real app, this would submit to the server)
+                    alert('Başvurunuz başarıyla alınmıştır. Onay sürecinizi takip etmek için lütfen sistemde oturum açın.');
+                    // Reset form
+                    $('#stajForm')[0].reset();
+                } else {
+                    // Display error message
+                    alert('Lütfen tüm zorunlu alanları doldurun.');
+                }
+            });
+
+            // Reset validation on input change
+            $('.form-control, .form-select, .form-check-input').on('input change', function () {
+                $(this).removeClass('is-invalid');
+            });
+
+            // Geri Dön button action
+            $('#geriDon').on('click', function () {
+                if (confirm('Form verileriniz kaydedilmeyecektir. Geri dönmek istediğinize emin misiniz?')) {
+                    window.location.href = '#'; // In a real app, this would be the previous page URL
+                }
+            });
+
+            // Auto-calculate end date when start date and days are set
+            $('#stajBaslamaTarihi, #stajGunSayisi, input[name="haftaCalismaSayisi"]').on('change input', function () {
+                const startDateStr = $('#stajBaslamaTarihi').val();
+                const days = parseInt($('#stajGunSayisi').val());
+                const weeklyWorkDays = parseInt($('input[name="haftaCalismaSayisi"]:checked').val());
+
+                if (startDateStr && days && weeklyWorkDays) {
+                    const dateParts = startDateStr.split('/');
+                    if (dateParts.length === 3) {
+                        const startDate = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]);
+
+                        // Calculate business days based on weeklyWorkDays
+                        let totalDays = 0;
+                        let currentDate = new Date(startDate);
+                        let daysAdded = 0;
+
+                        while (daysAdded < days) {
+                            totalDays++;
+                            const dayOfWeek = currentDate.getDay(); // 0 is Sunday, 6 is Saturday
+
+                            if (weeklyWorkDays === 5 && dayOfWeek !== 0 && dayOfWeek !== 6) {
+                                daysAdded++;
+                            } else if (weeklyWorkDays === 6 && dayOfWeek !== 0) {
+                                daysAdded++;
+                            }
+
+                            currentDate.setDate(currentDate.getDate() + 1);
+                        }
+
+                        // Subtract one day because the end date is inclusive
+                        currentDate.setDate(currentDate.getDate() - 1);
+
+                        // Format the end date
+                        const endDay = currentDate.getDate().toString().padStart(2, '0');
+                        const endMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+                        const endYear = currentDate.getFullYear();
+
+                        $('#stajBitisTarihi').val(`${endDay}/${endMonth}/${endYear}`);
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+

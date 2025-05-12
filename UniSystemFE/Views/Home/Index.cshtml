@@ -1,0 +1,202 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title>UniSystem</title>
+
+    <!-- CSS Dosyaları -->
+    <link href="/FrontendSource/dist/css/Loader.css" rel="stylesheet" />
+    <link href="/weblogin/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="/weblogin/css/font-awesome.css">
+    <link href="/weblogin/css/popup-box.css" rel="stylesheet" type="text/css" media="all" />
+
+    <!-- jQuery Kütüphanesi -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <!-- JavaScript Dosyaları -->
+    <script src="/FrontendSource/JsSourceIndex.js"></script>
+    <script src="/weblogin/js/jquery.magnific-popup.js"></script>
+
+    <title>Project Flat Responsive Widget Template :: w3layouts</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Project Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+
+    <script type="application/x-javascript">
+        addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+        function hideURLbar(){ window.scrollTo(0,1); }
+    </script>
+
+    <!-- Google Fontlar -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&subset=latin-ext" rel="stylesheet">
+
+</head>
+<body>
+
+
+
+    <div id="loader" style="display:none;">Yükleniyor...</div>
+    <environment names="Development">
+        <h2>dev</h2>
+    </environment>
+    <environment names="Production">
+        <h2>prod</h2>
+    </environment>
+    <section class="register">
+        <div class="header">
+            <div class="logo">
+                <a href="#">MALİBU ÜNİVERSİTESİ</a>
+                
+            </div>
+            <div class="social">
+                <li><a href="#"><span class="fa fa-facebook"></span></a></li>
+                <li><a href="#"><span class="fa fa-twitter"></span></a></li>
+                <li><a href="#"><span class="fa fa-linkedin"></span></a></li>
+                <li><a href="#"><span class="fa fa-google-plus"></span></a></li>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <div class="register-full">
+            <div class="register-left">
+                <div class="register">
+                    <p></p>
+                    <h2>İÇERİSİ ŞAMPİYONLAR LİGİ GİBİ</h2>
+                    <p>Bilim ve medeniyetin ışığında, geleceğin liderlerini yetiştiren bir eğitim kurumu olarak, Üniversitemiz, çağdaş bilgi ve teknolojinin peşinde koşan, yenilikçi ve vizyoner bireyler yetiştirmeyi amaçlamaktadır.</p>
+                    <div class="content3">
+                        <ul>
+                            <li><a class="" href="/AcademicianInformationSystem/Researcher/">ARAŞTIRMACI BİLGİ SİSTEMİ</a></li>
+                            <li><a class="read" href="#"> Get Started</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="register-right">
+                <br />
+                <br />
+                <br />
+                <div class="register-in middle">
+                    <a  class="book popup-with-zoom-anim button-isi zoomIn animated" data-wow-delay=".5s" href="#small-dialog">ÖĞRENCİ GİRİŞ »</a>
+                </div>
+                <div class="register-in">
+                    <a class="book popup-with-zoom-anim button-isi zoomIn animated" data-wow-delay=".5s" href="#small-dialog1">AKADEMİSYEN GİRİŞ »</a>
+                </div>
+                <div class="clear"> </div>
+            </div>
+            <div class="clear"> </div>
+        </div>
+        <p class="agile-copyright">© @DateTime.Now.Year Project. All Rights Reserved | Design by ÇALINTI</p>
+    </section>
+
+    <div class="pop-up">
+        <div id="small-dialog" class="mfp-hide book-form">
+            <div class="login-form login-form-left">
+                <div class="agile-row">
+                    <h3>ÖĞRENCİ GİRİŞ</h3>
+                    <span class="fa fa-lock"></span>
+                    <div class="clear"></div>
+                    <div class="login-agileits-top">
+                        <form action="javascript:StudentLogin();" method="post">
+                            <input type="text" id="StudentMail" name="email" Placeholder="Email" required="" />
+                            <input type="password" id="StudentPassw" name="password" Placeholder="Password" required="" />
+                            <input id="StudentBtn" type="submit" value="Login">
+                        </form>
+                    </div>
+                    <div class="login-agileits-bottom">
+                        <h6><a href="Home/ForgetPassword/">Maalesef şifremi unutum!</a></h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pop-up">
+        <div id="small-dialog1" class="mfp-hide book-form">
+            <div class="login-form login-form-left">
+                <div class="agile-row">
+                    <h3>AKADEMİSYEN GİRİŞ <span class="fa fa-lock"></span></h3>
+                    <div class="clear"></div>
+                    <div class="login-agileits-top">
+                        <form action="javascript:AcademicianLogin();" method="post">
+                            <input type="text" id="AcademicianMail" name="email" Placeholder="Email" required="" />
+                            <input type="password" id="AcademicianPassw" name="password" Placeholder="Password" required="" />
+                            <input id="AcademicianBtn" type="submit" value="Login">
+                        </form>
+                    </div>
+                    <div class="login-agileits-bottom">
+                        <h6><a href="Home/ForgetPassword/">Maalesef şifremi unutum!</a></h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pop-up">
+        <div id="small-dialog2" class="mfp-hide book-form">
+            <div class="login-form login-form-left">
+                <div class="agile-row">
+                    <h3>Register form</h3>
+                    <div class="login-agileits-top">
+                        <form action="#" method="post">
+                            <input type="text" class="name" name="name" Placeholder="Full Name" required="" />
+                            <input type="email" class="email" name="email" Placeholder="Email" required="" />
+                            <input type="text" class="phone" name="phone" Placeholder="Phone Number" required="" />
+                            <input type="password" class="password" name="password" Placeholder="Password" required="" />
+                            <div class="login-check">
+                                <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i> </i> I Accept to the <a href="#">Terms &amp; Conditions</a></label>
+                            </div>
+                            <input type="submit" value="Register">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script>
+
+    function AcademicianLogin() {
+        var loginDto = {
+            email: $('#AcademicianMail').val(),
+            password: $('#AcademicianPassw').val()
+        };
+        $('#loader').show();
+
+        $.ajax({
+            url: '/Home/LoginAcademician',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(loginDto),
+            success: function (response) {
+                $('#loader').hide();
+                $('#AcademicianBtn').prop('disabled', true);
+
+                if (response.success) {
+                    localStorage.setItem('authToken', response.token);
+                    window.location.href = '/Academician/Home/Index';
+                } else {
+                    var errors = response.errors;
+                    var errorMessages = errors.join("\n");
+
+                    $('#AcademicianMail').val("");
+                    $('#AcademicianPassw').val("");
+                    $('#AcademicianBtn').prop('disabled', false);
+
+                    alert(errorMessages);
+                }
+            },
+            error: function (xhr, status, error) {
+                $('#loader').hide();
+                $('#AcademicianBtn').prop('disabled', false);
+                alert("HATA: " + xhr.responseText);
+            }
+        });
+    }
+</script>

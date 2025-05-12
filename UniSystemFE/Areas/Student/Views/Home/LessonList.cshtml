@@ -1,0 +1,110 @@
+﻿@{
+    ViewData["Title"] = "LessonList";
+    Layout = "~/Areas/Student/Views/Shared/LayoutStudent.cshtml";
+}
+@using ServiceLayer.ViewModels
+@model LessonListFirstPageViewModel;
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+
+
+    <div class="container mt-5">
+        <h2 class="mb-4">NOT SORGU</h2>
+
+        <!-- Select boxes for year and period -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <label for="selectYear">YILI SEÇİN:</label>
+            <select id="selectYear" class="form-control">
+                @foreach (var item in Model.academicYearListViewModels)
+                {
+                    <option value="@item.YearOfEducation">@item.YearOfEducation</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label for="selectPeriod">Select Period:</label>
+            <select id="selectPeriod" class="form-control">
+                <option value="G">Güz</option>
+                <option value="B">Bahar</option>
+                <option value="Y">Yaz</option>
+            </select>
+        </div>
+        <div class="col-md-3 align-self-end">
+            <button id="filterButton" onclick="filterTable()" class="btn btn-primary">BUL</button>
+        </div>
+    </div>
+
+    <div id="examTableContainer">
+        <div id="loader" style="display:none;">Yükleniyor...</div>
+        <table id="examTable" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Academic Year</th>
+                    <th>Lesson Name</th>
+                    <th>Midterm Exam Score</th>
+                    <th>Final Exam Score</th>
+                    <th>But Exam Score</th>
+                    <th>Flag</th>
+                    <th>Is Constant</th>
+                    <th>Is Passed</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ExamModelViews)
+                {
+                    <tr>
+                        <td>@item.AcademicYear @item.AcademicYearPeriod</td>
+                        <td>@item.LessonName</td>
+                        <td>@item.MidtermExamScore</td>
+                        <td>@item.FinalExamScore</td>
+                        <td>@item.ButExamScore</td>
+                        <td>@item.FlagAbc</td>
+                        <td>@item.IsConstant</td>
+                        <td>@item.IsPassed</td>
+                        <td>@item.Score</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+      </div>
+ 
+    </div>
+
+ 
+    <script>
+ 
+    function filterTable() {
+
+
+        var selectedYear = $('#selectYear').val();
+        var selectedPeriod = $('#selectPeriod').val();
+        $('#loader').show();
+
+        $.ajax({
+            url: "/Student/Home/LessonListPartial",
+
+            type: 'POST',
+            data: {
+                YearOfEducation: selectedYear,
+                Period: selectedPeriod
+            },
+            success: function (data) {
+                $('#examTableContainer').html(data);
+                $('#loader').hide();
+      
+            },
+            error: function (xhr, status, error) {
+                alert('Ders Listesi yüklenirken bir hata oluştu: ' + error);
+            },
+            complete: function () {
+                $('#loader').hide();
+            }
+        });
+    }
+        
+    </script>
+
+

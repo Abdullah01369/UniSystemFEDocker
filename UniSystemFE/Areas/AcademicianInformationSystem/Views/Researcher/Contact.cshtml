@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewData["Title"] = "Contact";
+    Layout = "~/Areas/AcademicianInformationSystem/Views/Shared/_ResearcherInformationLayout.cshtml";
+}
+ @using SharedLayer.Dtos
+ @model ContactResearcherDto
+ 
+<div class="section">
+    <h2 class="section-title">İletişim</h2>
+
+    @if (Model!=null)
+    {
+        <div class="panel">
+            <div class="panel-header">
+                <h3 class="panel-title">İletişim Bilgileri</h3>
+                <span class="panel-toggle">−</span>
+            </div>
+            <div class="panel-content" style="display: block;">
+                <div class="contact-item">
+                    <div class="contact-icon">🌐</div>
+                    <div class="contact-text">
+                        <a href="@Model.WebSite" target="_blank">@Model.WebSite</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header">
+                <h3 class="panel-title">Email Bilgileri</h3>
+                <span class="panel-toggle">−</span>
+            </div>
+            <div class="panel-content" style="display: block;">
+                <div class="contact-item">
+                    <div class="contact-icon">✉</div>
+                    <div class="contact-text">
+                        <a href="mailto:icerde186@gmail.com">@Model.Email</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header">
+                <h3 class="panel-title">Uluslararası Araştırmaları</h3>
+                <span class="panel-toggle">−</span>
+            </div>
+            <div class="panel-content" style="display: block;">
+                <div class="researcher-ids">
+                    <div class="researcher-id google" title="Google Scholar">G</div>
+                    <div class="researcher-id scopus" title="Scopus">S</div>
+                    <div class="researcher-id orcid" title="ORCID">ID</div>
+                    <div class="researcher-id publons" title="Publons">P</div>
+                    <div class="researcher-id researcherid" title="ResearcherID">X</div>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>

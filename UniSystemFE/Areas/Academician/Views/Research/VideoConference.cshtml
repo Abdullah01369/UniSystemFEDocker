@@ -1,0 +1,88 @@
+﻿
+@{
+    ViewData["Title"] = "VideoConference";
+    Layout = "~/Areas/Academician/Views/Shared/_AcademicianLayout.cshtml";
+}
+
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Konferans</title>
+</head>
+<body>
+    <h1>Video Konferans Uygulaması</h1>
+    <button id="startConferenceButton">Konferans Başlat</button>
+    <div id="userList"></div>
+    <video id="localVideo" autoplay muted></video>
+    <video id="remoteVideo" autoplay></video>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.15/signalr.min.js"></script>
+    <script>
+        const localVideo = document.getElementById('localVideo');
+        const remoteVideo = document.getElementById('remoteVideo');
+        const startConferenceButton = document.getElementById('startConferenceButton');
+        let localStream;
+        let peerConnection;
+
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("https://localhost:7170/VideoHub") // API URL'ini doğru şekilde belirt.
+            .build();
+
+        connection.start().then(() => {
+            console.log("SignalR bağlantısı kuruldu.");
+        }).catch(console.error);
+
+        // Konferans başlatma butonuna tıklayınca çalışacak fonksiyon
+        startConferenceButton.onclick = async () => {
+            const userIds = prompt("Davet etmek istediğiniz kullanıcıların ID'lerini virgül ile ayırarak girin:").split(",");
+            await connection.invoke("StartConference", userIds);
+            alert("Konferans davetleri gönderildi.");
+        };
+
+        // Başka bir kullanıcı davet aldığında çalışacak fonksiyon
+        connection.on("ReceiveConferenceInvite", async (inviterUserId) => {
+            const accept = confirm(`${inviterUserId} tarafından konferansa davet edildiniz. Katılmak istiyor musunuz?`);
+            if (accept) {
+                await connection.invoke("AcceptInvite", inviterUserId);
+                startVideoCall(); // Konferansa katılıp video görüşmesi başlatma
+            }
+        });
+
+        // Diğer kullanıcı daveti kabul ettiğinde çağrılacak
+        connection.on("UserAcceptedInvite", (acceptedUserId) => {
+            console.log(`${acceptedUserId} konferansa katıldı.`);
+            startVideoCall();
+        });
+
+        async function startVideoCall() {
+            localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+            localVideo.srcObject = localStream;
+
+            peerConnection = new RTCPeerConnection();
+
+            localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
+
+            peerConnection.ontrack = event => {
+                remoteVideo.srcObject = event.streams[0];
+            };
+
+            peerConnection.onicecandidate = event => {
+                if (event.candidate) {
+                    connection.invoke("SendIceCandidate", "user", JSON.stringify(event.candidate));
+                }
+            };
+
+            // SignalR üzerinden WebRTC sinyalleşmesini yönet
+            // Bu kısım bir önceki WebRTC kodları ile aynı
+        }
+    </script>
+</body>
+</html>
+
+ 
+
+

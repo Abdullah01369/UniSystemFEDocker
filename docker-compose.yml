@@ -1,0 +1,25 @@
+
+
+services:
+  unisystemfe:
+    image: unisystemfeimage
+    container_name: unisystemfecontainer
+    build:
+      context: .
+      dockerfile: UniSystemFE/Dockerfile
+    networks:
+      - unisystem-network
+
+  sqlserverfe:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    networks:
+      - unisystem-network
+    volumes:
+      - sqlserverfe_volume:/var/opt/mssql
+
+networks:
+  unisystem-network:
+    external: true  
+
+volumes:
+  sqlserverfe_volume:

@@ -1,0 +1,217 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using Newtonsoft.Json
+@using SharedLayer.Dtos
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>Akademisyen Yönetim Sistemi</title>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="~/FrontendSource/plugins/fontawesome-free/css/all.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="~/FrontendSource/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/FrontendSource/dist/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+
+    @{
+
+        var userInfoJson = HttpContextAccessor.HttpContext.Session.GetString("UserInfo");
+        UserInfoModel userInfo = null;
+
+        if (!string.IsNullOrEmpty(userInfoJson))
+        {
+            userInfo = JsonConvert.DeserializeObject<UserInfoModel>(userInfoJson);
+        }
+    }
+    <div class="wrapper">
+
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <!-- Brand Logo -->
+            <a href="index3.html" class="brand-link">
+                <img src="~/frontendsource/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+                     style="opacity: .8">
+                <span class="brand-text font-weight-light">Üniversite</span>
+            </a>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Sidebar user panel (optional) -->
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="image">
+                        <img src="~/frontendsource/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                    </div>
+                    <div class="info">
+                        @if (userInfo != null)
+                        {
+                            <a href="#" class="d-block">@userInfo.UserName</a>
+                        }
+                        else
+                        {
+                            <a href="#" class="d-block">Kullanıcı bilgisi bulunamadı</a>
+                        }
+                    </div>
+                </div>
+
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <!-- Add icons to the links using the .nav-icon class
+                             with font-awesome or any other icon font library -->
+
+                        <li class="nav-item">
+                            <a href="/Academician/Home/Index" class="nav-link">
+                                <i class="nav-icon fa fa-home"></i>
+                                <p>
+                                    ANASAYFA
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-header">DERS YÖNETİMİ</li>
+                        <li class="nav-item">
+                            <a href="/Academician/Home/CourseManagement" class="nav-link">
+                                <i class="nav-icon fa fa-book"></i>
+                                <p>
+                                    Ders Yönetimi
+                                </p>
+                            </a>
+                        </li>
+                      
+
+                        <li class="nav-header">ARAŞTIRMA VE PROJELER</li>
+                        <li class="nav-item">
+                            <a href="/Academician/Research/Index" class="nav-link">
+                                <i class="nav-icon fa fa-flask"></i>
+                                <p>
+                                    Araştırma Projeleri
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Academician/Publications" class="nav-link">
+                                <i class="nav-icon fa fa-file-alt"></i>
+                                <p>
+                                    Yayınlar
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-header">DANIŞMANLIK VE İLETİŞİM</li>
+                        <li class="nav-item">
+                            <a href="/Academician/ConsultationHours" class="nav-link">
+                                <i class="nav-icon fa fa-clock"></i>
+                                <p>
+                                    Danışmanlık Saatleri
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Academician/Message/SendMail" class="nav-link">
+                                <i class="nav-icon fas fa-envelope"></i>
+                                <p>
+                                    Mesajlar
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-header">İDARİ GÖREVLER</li>
+                        <li class="nav-item">
+                            <a href="/Academician/CommitteeTasks" class="nav-link">
+                                <i class="nav-icon fa fa-tasks"></i>
+                                <p>
+                                    Komite Görevleri
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Academician/CourseManagement/Ask" class="nav-link">
+                                <i class="nav-icon fas fa-question-circle"></i>
+                                <p>Sor</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="/Academician/CommunityProjects" class="nav-link">
+                                <i class="nav-icon fa fa-hands-helping"></i>
+                                <p>
+                                    Toplum Hizmeti Projeleri
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-header">PROFİL VE AYARLAR</li>
+                        <li class="nav-item">
+                            <a href="/Academician/Home/Profile" class="nav-link">
+                                <i class="nav-icon fas fa-user"></i>
+                                <p>
+                                    Profilim
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Home/Logout" class="nav-link">
+                                <i class="nav-icon fas fa-sign-out-alt"></i>
+                                <p>
+                                    Çıkış
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+        @RenderBody()
+        <!-- /.content-wrapper -->
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+        </aside>
+        <!-- /.control-sidebar -->
+        <!-- Main Footer -->
+        <footer class="main-footer">
+            <strong>Copyright &copy; 2024 <a href="#">Üniversite</a>.</strong>
+            All rights reserved.
+            <div class="float-right d-none d-sm-inline-block">
+                <b>Version</b> 1.0
+            </div>
+        </footer>
+    </div>
+ 
+
+    <script src="~/FrontendSource/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="~/FrontendSource/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- overlayScrollbars -->
+    <script src="~/FrontendSource/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/FrontendSource/dist/js/adminlte.js"></script>
+
+    <!-- OPTIONAL SCRIPTS -->
+    <script src="~/FrontendSource/dist/js/demo.js"></script>
+
+    <!-- PAGE PLUGINS -->
+    <!-- jQuery Mapael -->
+    <script src="~/FrontendSource/plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
+    <script src="~/FrontendSource/plugins/raphael/raphael.min.js"></script>
+    <script src="~/FrontendSource/plugins/jquery-mapael/jquery.mapael.min.js"></script>
+    <script src="~/FrontendSource/plugins/jquery-mapael/maps/usa_states.min.js"></script>
+    <!-- ChartJS -->
+    <script src="~/FrontendSource/plugins/chart.js/Chart.min.js"></script>
+
+    <!-- PAGE SCRIPTS -->
+    <script src="~/FrontendSource/dist/js/pages/dashboard2.js"></script>
+
+</body>
+@RenderSection("Scripts", required: false)
+</html>

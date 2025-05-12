@@ -1,0 +1,193 @@
+﻿ @using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using Newtonsoft.Json
+@using SharedLayer.Dtos
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>Akademisyen Yönetim Sistemi</title>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="~/FrontendSource/plugins/fontawesome-free/css/all.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="~/FrontendSource/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/FrontendSource/dist/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+
+    @{
+
+        var userInfoJson = HttpContextAccessor.HttpContext.Session.GetString("UserInfo");
+        UserInfoModel userInfo = null;
+
+        if (!string.IsNullOrEmpty(userInfoJson))
+        {
+            userInfo = JsonConvert.DeserializeObject<UserInfoModel>(userInfoJson);
+        }
+    }
+    <div class="wrapper">
+
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <!-- Brand Logo -->
+            <a href="index3.html" class="brand-link">
+                <img src="~/frontendsource/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+                     style="opacity: .8">
+                <span class="brand-text font-weight-light">Üniversite</span>
+            </a>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Sidebar user panel (optional) -->
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="image">
+                        <img src="~/frontendsource/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                    </div>
+                    <div class="info">
+                        @if (userInfo != null)
+                        {
+                            <a href="#" class="d-block">@userInfo.UserName</a>
+                        }
+                        else
+                        {
+                            <a href="#" class="d-block">Kullanıcı bilgisi bulunamadı</a>
+                        }
+                    </div>
+                </div>
+
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+                        <!-- Home Link -->
+                        <li class="nav-item">
+                            <a href="/Admin/Management/Index" class="nav-link">
+                                <i class="nav-icon fa fa-home"></i>
+                                <p>
+                                    ANASAYFA
+                                </p>
+                            </a>
+                        </li>
+
+                      
+                        <!-- User Management Section -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Admin/UserManagement/Users">
+                                <i class="fas fa-users me-2"></i> Kullanıcı Yönetimi
+                            </a>
+                        </li>
+
+                        <!-- Course Management Section -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Admin/Management/LessonManagement">
+                                <i class="fas fa-book me-2"></i> Dersler
+                            </a>
+                        </li>
+
+                        <!-- System Monitoring Section -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Admin/SystemMonitor">
+                                <i class="fas fa-chart-line me-2"></i> Sistem İzleme
+                            </a>
+                        </li>
+
+                        <!-- General Settings Section -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Admin/Settings">
+                                <i class="fas fa-cogs me-2"></i> Genel Ayarlar
+                            </a>
+                        </li>
+
+                        <!-- Student Management Section -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Admin/Students">
+                                <i class="fas fa-user-graduate me-2"></i> Öğrenci Yönetimi
+                            </a>
+                        </li>
+
+                        <!-- Academician Management Section -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Admin/Academicians">
+                                <i class="fas fa-chalkboard-teacher me-2"></i> Akademisyen Yönetimi
+                            </a>
+                        </li>
+
+                        <!-- Reporting Section -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Admin/Reports">
+                                <i class="fas fa-chart-bar me-2"></i> Raporlama
+                            </a>
+                        </li>
+
+                        <!-- Log Records Section -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Admin/Logs">
+                                <i class="fas fa-clipboard-list me-2"></i> Log Kayıtları
+                            </a>
+                        </li>
+
+                        <!-- Notifications Section -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Admin/Notifications">
+                                <i class="fas fa-bell me-2"></i> Bildirimler
+                            </a>
+                        </li>
+
+                        <!-- Logout Section -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Account/Logout">
+                                <i class="fas fa-sign-out-alt me-2"></i> Çıkış Yap
+                            </a>
+                        </li>
+
+                    </ul>
+                </nav>
+
+            </div>
+        </aside>
+
+        @RenderBody()
+        <!-- /.content-wrapper -->
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+        </aside>
+       
+     
+
+    </div>
+
+
+    <script src="~/FrontendSource/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="~/FrontendSource/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- overlayScrollbars -->
+    <script src="~/FrontendSource/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/FrontendSource/dist/js/adminlte.js"></script>
+
+    <!-- OPTIONAL SCRIPTS -->
+    <script src="~/FrontendSource/dist/js/demo.js"></script>
+
+    <!-- PAGE PLUGINS -->
+    <!-- jQuery Mapael -->
+    <script src="~/FrontendSource/plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
+    <script src="~/FrontendSource/plugins/raphael/raphael.min.js"></script>
+    <script src="~/FrontendSource/plugins/jquery-mapael/jquery.mapael.min.js"></script>
+    <script src="~/FrontendSource/plugins/jquery-mapael/maps/usa_states.min.js"></script>
+    <!-- ChartJS -->
+    <script src="~/FrontendSource/plugins/chart.js/Chart.min.js"></script>
+
+    <!-- PAGE SCRIPTS -->
+    <script src="~/FrontendSource/dist/js/pages/dashboard2.js"></script>
+
+</body>
+@RenderSection("Scripts", required: false)
+</html>

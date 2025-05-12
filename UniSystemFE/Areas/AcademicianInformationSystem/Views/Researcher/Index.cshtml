@@ -1,0 +1,365 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Üniversite Araştırmacılar Bilgi Sistemi</title>
+    <!-- Bootstrap CSS -->
+    <link href="~/css/researchermainstyle.css" rel="stylesheet" />
+    <script src="~/js/researchermain.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   
+</head>
+<body>
+ 
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img height="50" src="~/img/flag.png" />
+                ARAŞTIRMACI BİLGİ SİSTEMİ
+            </a>
+          
+        </div>
+        <div class="ms-auto d-flex align-items-center">
+            <div class="me-3">
+                <i  >
+                    <a href="" class="btn btn-success">  <span style="font-family:'Times New Roman', Times, serif">Araştırmacı Giriş</span></a>
+                </i>
+
+            </div>
+
+        </div>
+    </nav>
+
+
+    <div class="search-bar">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <input id="searchInput" type="text" class="form-control" placeholder="Search: Researcher, Mail, Name, Surname">
+                        <div id="suggestionsList" class="position-absolute bg-white border rounded"></div>
+                        <a onclick="GotoPage()" class="btn btn-sm btn-success">Ara</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+    <section class="world-map-section">
+        <div class="container">
+            <div class="background-container">
+                <h3 class="section-title">Araştırmacı Bilgi Sistemi</h3>
+                <p class="section-text">
+                   İçerisi Şampiyonlar Ligi Gibi...
+                </p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Statistics Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="section-title mb-4">
+                <h4>Reports and Statistics</h4>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-6">
+                    <div class="stats-card">
+                        <i class="fas fa-chart-bar stats-icon stats-blue"></i>
+                        <div class="stats-number">112,457</div>
+                        <div class="stats-title">Records and Statistics</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stats-card">
+                        <i class="fas fa-lock-open stats-icon stats-orange"></i>
+                        <div class="stats-number">22,864</div>
+                        <div class="stats-title">Open Access</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stats-card">
+                        <i class="fas fa-atom stats-icon stats-green"></i>
+                        <div class="stats-number">0</div>
+                        <div class="stats-title"> Links</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stats-card">
+                        <i class="fas fa-university stats-icon stats-purple"></i>
+                        <div class="stats-number">Research in</div>
+                        <div class="stats-title">Units</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stats-card">
+                        <i class="fas fa-virus stats-icon stats-red"></i>
+                        <div class="stats-number">Research on</div>
+                        <div class="stats-title">COVID-19</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stats-card">
+                        <i class="fas fa-globe-americas stats-icon stats-yellow"></i>
+                        <div class="stats-number">Sustainable</div>
+                        <div class="stats-title">Development</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stats-card">
+                        <i class="fas fa-network-wired stats-icon stats-cyan"></i>
+                        <div class="stats-number">Uni</div>
+                        <div class="stats-title">Network</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recent Updates Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="section-title">
+                        <h4>Recent Updates</h4>
+                        <div class="nav-arrows">
+                            <a href="#" class="me-2"><i class="fas fa-chevron-left"></i></a>
+                            <a href="#"><i class="fas fa-chevron-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="profile-card">
+                        <img class="profile-img" src="~/img/science.jpg" />
+
+                        <div class="profile-info">
+                            <h5>Prof. MUSTAFA  </h5>
+                            <p>     Administrative Sciences</p>
+                            <p><i class="fas fa-map-marker-alt me-1"></i> Ankara, Turkey</p>
+                            <p><i class="fas fa-graduation-cap me-1"></i> United States of America</p>
+                            <p><i class="fas fa-calendar me-1"></i> 25 March 2053</p>
+                        </div>
+                    </div>
+                 
+                </div>
+                <div class="col-md-6">
+                    <div class="section-title">
+                        <h4>Latest Publications</h4>
+                        <div class="nav-arrows">
+                            <a href="#" class="me-2"><i class="fas fa-chevron-left"></i></a>
+                            <a href="#"><i class="fas fa-chevron-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="publication-card">
+                        <h5>Discontinuous Galerkin Solutions of Moving Boundary Problems Using Arbitrary Lagrangian-Eulerian Method</h5>
+                        <p><strong>Author:</strong> TÜRKEŞ, M.</p>
+                        <p class="meta">
+                            <i class="fas fa-university me-1"></i> Department of Computational Science and Engineering (CSE) Texas, United States of America
+                        </p>
+                        <p class="meta">
+                            <i class="fas fa-calendar me-1"></i> 25 March 2023
+                        </p>
+                    </div>
+                 
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Research and Scientific Activities Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="section-title">
+                        <h4>Araştırma Grupları</h4>
+                        <div class="nav-arrows">
+                            <a href="#" class="me-2"><i class="fas fa-chevron-left"></i></a>
+                            <a href="#"><i class="fas fa-chevron-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="research-card">
+                    
+                        <img src="~/img/logouni.png" class="research-img" alt="Plant Research">
+                        <div class="research-info">
+                            <h5>   Örnek Alan  </h5>
+                            <p>
+                                Nerde böyle hüzünlenmek o zaman;
+                                İçip içip ağlamak,
+                                Uzaklara dalıp şarkı söylemek;
+                                Hafta sekiz ben eğlentide;
+                                Bugün saz, yarın sinema,
+                                Beğenmedin Aile Bahçesi;
+                                Onu da beğenmedin, parka;
+                                Sevdiğim dillere destan;
+                                Sevdiğim,
+                                Meyil verdiğim;
+                            </p>
+                            <a href="#" class="btn btn-sm btn-outline-primary mt-2">Read more</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="section-title">
+                        <h4>Duyurular</h4>
+                        <div class="nav-arrows">
+                            <a href="#" class="me-2"><i class="fas fa-chevron-left"></i></a>
+                            <a href="#"><i class="fas fa-chevron-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="publication-card">
+                        <h5>Getting   Number and Adding Publications</h5>
+                        <p>  Higher Education. The establishment of an Open Academic Archive has been started to enable researchers to archive documents such as articles...</p>
+                        <a href="#" class="btn btn-sm btn-outline-primary mt-2">Read more</a>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+    </section>
+
+ 
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <img class="footer-logo" src="~/img/ata2.png" />
+                     <div class="footer-links">
+                        <a href="#">Ana Sayfa</a>
+                        <a href="#">Hakkımızda  </a>
+                        <a href="#">İletişim</a>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <h5>İletişim Bilgileri</h5>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-text">
+                               Üniversite Adres<br>
+                                Demokrasi Mahallesi - İttihat sokak No: 1293<br>
+                                 Çankaya/Ankara
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="contact-text">
+                                +90(541) 641 9410
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-text">
+                                abdullahaarici14@gmail.com
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright text-center">
+                Research Information System @DateTime.Now.Year
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+      <script>
+
+        let BaseUrl = '@ViewBag.BaseUrl';
+
+        let selectedEmail="";
+        const searchInput = document.getElementById('searchInput');
+        const suggestionsList = document.getElementById('suggestionsList');
+
+         
+        async function findSuggestions(query) {
+            if (query.length < 2) {
+                suggestionsList.innerHTML = '';
+                return;
+            }
+
+            try {
+                debugger;
+                const response = await fetch(`${BaseUrl}Researcher/GetSuggestions?query=${encodeURIComponent(query)}`);
+                const suggestions = await response.json();
+
+                debugger
+                suggestionsList.innerHTML = suggestions.map(user => `
+                    <div data-id="${user.email}">
+                        ${user.name} 
+                        <small>(${user.surname})</small>
+                        <span class="match-type">${user.email}</span>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Arama sırasında hata:', error);
+            }
+        }
+
+    
+        let searchTimeout;
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                findSuggestions(this.value);
+            }, 300);
+        });
+        function GotoPage() {
+            if (selectedEmail !== "") {
+                 
+                const url = `/AcademicianInformationSystem/Researcher/Information/?email=${encodeURIComponent(selectedEmail)}`;
+                window.location.href = url; 
+            } else {
+               
+                alert("Seçilen email yok!");
+            }
+        }
+
+
+        suggestionsList.addEventListener('click', function (e) {
+            const selectedDiv = e.target.closest('div');
+            if (selectedDiv) {
+                const name = selectedDiv.childNodes[0].textContent.trim(); // Adı al
+                const surname = selectedDiv.querySelector('small')?.textContent.replace(/[()]/g, '').trim(); // Soyadını al
+                selectedEmail = selectedDiv.getAttribute('data-id'); // Email bilgisini al ve değişkene ata
+
+                searchInput.value = `${name} ${surname}`; // Input'a adı ve soyadı yazdır
+                suggestionsList.innerHTML = ''; // Listeyi temizle
+
+                console.log("Seçilen Email:", selectedEmail); // Kontrol amaçlı consola yazdır
+
+                 const researcherLink = document.getElementById('researcherLink');
+               
+ 
+            
+            }
+        });
+
+        // Input dışına tıklandığında önerileri kapat
+        document.addEventListener('click', function(e) {
+            if (!searchInput.contains(e.target) && !suggestionsList.contains(e.target)) {
+                suggestionsList.innerHTML = '';
+            }
+        });
+    </script>
+    <!-- Custom JS -->
+ 
+</body>
+</html>

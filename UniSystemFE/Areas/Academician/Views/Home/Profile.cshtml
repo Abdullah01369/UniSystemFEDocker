@@ -1,0 +1,188 @@
+﻿
+@{
+    ViewData["Title"] = "Profile";
+    Layout = "~/Areas/Academician/Views/Shared/_AcademicianLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Student Information</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f7;
+        }
+
+        .container {
+            margin-top: 50px;
+            max-width: 900px;
+        }
+
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background-color: #007bff;
+            color: white;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .card-body {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .form-container {
+            flex: 2;
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-control {
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+
+        .image-container {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .image-container img {
+                max-width: 100%;
+                border-radius: 10px;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h3>Profil bilgileri</h3>
+            </div>
+
+
+            <div class="card-body">
+                <div class="form-container">
+                    <form id="studentInfoForm">
+                        <div class="form-group">
+                            <label for="city"><i class="fas fa-city"></i> Address</label>
+                            @if (@Model.Data.AddressDec != null)
+                            {
+                                <input type="text" class="form-control" value="@Model.Data.AddressDec " id="city" placeholder="Enter your adddress">
+
+                            }
+                            else
+                            {
+                                <input type="text" class="form-control" id="city" placeholder="Enter your city">
+
+                            }
+                        </div>
+                        <div class="form-group">
+                            <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                            <a href="#"></a>
+                            @if (@Model.Data != null && Model.Data.Email != null)
+                            {
+                                <input readonly type="email" class="form-control" value="@Model.Data.Email" id="email" placeholder="Enter your email">
+
+
+                            }
+                            else
+                            {
+                                <input type="email" class="form-control" id="email" placeholder="Enter your email">
+
+                            }
+                        </div>
+                        <div class="form-group">
+                            <label for="phone"><i class="fas fa-phone"></i> Phone Number</label>
+
+                            @if (@Model.Data.PhoneNumber != null && Model.Data != null)
+                            {
+                                <input type="tel" class="form-control" value="@Model.Data.PhoneNumber.ToString()" id="phone" placeholder="Enter your phone number">
+
+                            }
+                            else
+                            {
+                                <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number">
+
+                            }
+
+                        </div>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Update Information</button>
+                    </form>
+                </div>
+                <div class="image-container">
+                    <img src="data:image/png;base64,@Model.Data.PhotoBase64Text" alt="Profile Image" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Handle form submission
+            $('#studentInfoForm').on('submit', function (e) {
+                e.preventDefault();
+
+                const updatedInfo = {
+                    city: $('#city').val(),
+
+                    phone: $('#phone').val(),
+
+
+                };
+
+                $.ajax({
+                    url: '/academician/home/UpdateProfile',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(updatedInfo),
+                    success: function (data) {
+
+                        debugger;
+                        if (data == true) {
+                            alert('Your information has been updated successfully!');
+                        } else {
+                            alert('There was an error updating your information.');
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        alert('An error occurred while updating your information.');
+                        console.error(error); 
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+

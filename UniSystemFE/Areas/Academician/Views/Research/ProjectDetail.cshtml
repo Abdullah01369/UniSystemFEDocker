@@ -1,0 +1,316 @@
+﻿
+@{
+    ViewData["Title"] = "ProjectDetail";
+    Layout = "~/Areas/Academician/Views/Shared/_AcademicianLayout.cshtml";
+}
+@using ServiceLayer.Models
+@model ProjectDetailModel
+
+
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proje Detayları</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f2f5;
+        }
+
+        .project-details {
+            margin-top: 50px;
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+            .project-header h2 {
+                margin: 0;
+            }
+
+        .btn-add {
+            background-color: #28a745;
+            color: white;
+            border-radius: 25px;
+            padding: 10px 20px;
+            transition: background 0.3s ease;
+        }
+
+            .btn-add:hover {
+                background-color: #218838;
+            }
+
+        .icon-style {
+            font-size: 1.2rem;
+            margin-right: 10px;
+        }
+
+        .left-panel {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .student-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .student-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .student-list i {
+            color: #17a2b8;
+        }
+
+        .statistics {
+            display: flex;
+            gap: 30px;
+        }
+
+        .stat-box {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+            .stat-box i {
+                font-size: 2rem;
+                color: #ffc107;
+                margin-bottom: 10px;
+            }
+
+        .doc-upload {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+            .doc-upload input {
+                margin-top: 10px;
+            }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="container project-details">
+        <!-- Proje Başlığı -->
+        <div class="project-header">
+            <h2><i class="fas fa-project-diagram icon-style"></i> Proje Adı: Yapay Zeka Araştırmaları</h2>
+            <button onclick="ShowAddStudentModal()" class="btn btn-add"><i class="fas fa-plus"></i> Yeni Öğrenci Ekle</button>
+        </div>
+        @if (Model!=null)
+        {
+            <div class="row">
+                <input value="@Model.ProjectModel.Id" hidden id="ProjectId" />
+                <div class="col-md-4 left-panel student-list">
+                    <h4>Projede Yer Alan Öğrenciler</h4>
+                    <ul>
+                      
+
+                        @foreach (var item in Model.StudentList)
+                        {
+                            <li><i class="fas fa-user-graduate"></i> @item.No -  @item.Name  @item.Surname </li>
+
+                        }
+
+                    </ul>
+                </div>
+
+                <!-- İstatistikler ve Döküman Ekleme -->
+                <div class="col-md-8">
+                    <div class="statistics">
+                        <div class="stat-box">
+                            <i class="fas fa-tasks"></i>
+                            <h5>Proje Durumu</h5>
+                            <p>%@Model.ComplateRate Tamamlandı</p>
+                        </div>
+                        <div class="stat-box">
+                            <i class="fas fa-users"></i>
+                            <h5>Öğrenci Sayısı</h5>
+                            <p>@Model.StudentCount Öğrenci</p>
+                        </div>
+                        <div class="stat-box">
+                            <i class="fas fa-file-alt"></i>
+                            <h5>Toplam Döküman</h5>
+                            <p>@ViewBag.documentcount Dosya</p>
+                        </div>
+                        <div class="stat-box">
+                            <i class="fas fa-folder-open"></i>
+                            <h5>Doküman Listele</h5>
+                            <p> </p>
+                        </div>
+
+                        <div class="stat-box">
+
+                            <i class="fa fa-video"></i>
+                            <h5>Üyelerle Video Konferans</h5>
+                            <a href="/Academician/Research/VideoConference"><p><i class="fas fa-play-circle"></i></p></a>
+                            
+                        </div>
+
+                    </div>
+
+                    <!-- Döküman Yükleme Alanı -->
+                    <div class="doc-upload mt-4">
+                        <h4><i class="fas fa-file-upload icon-style"></i> Yeni Döküman Yükle</h4>
+                        <input type="file" class="form-control">
+                        <button class="btn btn-add mt-3">Yükle</button>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div style="color:black!important" class="alert alert-primary" role="alert">
+                BİR SIKINTI ÇIKTI MAALESEFFF!
+            </div>
+        }
+
+    </div>
+    <div class="modal fade" id="addStudentModal" tabindex="-1" aria-labelledby="addStudentModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addStudentModalLabel">Öğrenci Ekle</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addStudentForm">
+                        <div class="mb-3">
+                            <label for="studentNumber" class="form-label">Öğrenci Numarası:</label>
+                            <input type="text" class="form-control" id="studentNumber" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="button" class="btn btn-primary" onclick="SubmitStudent()">Ekle</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+ 
+    <div class="modal fade" id="confirmStudentModal" tabindex="-1" aria-labelledby="confirmStudentModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmStudentModalLabel">Öğrenci Ekleme Onayı</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="studentInfo"></p>
+                    <p>Bu öğrenciyi projeye eklemek istiyor musunuz?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="button" class="btn btn-primary" id="confirmAddStudent">Ekle</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+<script>
+    function ShowAddStudentModal() {
+        var modal = new bootstrap.Modal(document.getElementById('addStudentModal'), {
+            keyboard: false
+        });
+        modal.show();
+    }
+
+     function SubmitStudent() {
+        const studentNumber = document.getElementById('studentNumber').value;
+         const projectId = document.getElementById("ProjectId").value; 
+        if (studentNumber) {
+            fetch('/Academician/Research/AddStudentInfo', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ StudentNo: studentNumber, ProjectId: projectId }) 
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data !== "FAIL") {
+                         document.getElementById('studentInfo').textContent =
+                            ` ${data.data.name} ${data.data.surname} adlı kişiyi eklemek istiyor musunuz?`;
+                         var modal = new bootstrap.Modal(document.getElementById('confirmStudentModal'));
+                        modal.show();
+                        document.getElementById('confirmAddStudent').onclick = function () {
+                            debugger;
+                             fetch('/Academician/Research/AddStudent', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ StudentNo: studentNumber, ProjectId: projectId }) 
+                            })
+                                .then(response => response.json())
+                                .then(data => {
+                                    debugger;
+                                    if (data.data != null) {
+                                        debugger;
+                                        alert('Öğrenci başarıyla eklendi!');
+                                        location.reload();
+                                    } else if (data.error) {
+                                        alert('Hata: ' + data.error.errors); 
+                                    } else {
+                                        alert('Öğrenci eklenirken bir hata oluştu.'); 
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                });
+
+                            // Modali kapat
+                            modal.hide();
+                       
+                        };
+
+                    } else {
+                        alert('Öğrenci bulunamadı.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+
+            // Close the modal
+            var modalElement = document.getElementById('addStudentModal');
+            var modal = bootstrap.Modal.getInstance(modalElement);
+            modal.hide();
+        } else {
+            alert('Lütfen öğrenci numarasını giriniz.');
+        }
+    }
+
+</script>
+
+

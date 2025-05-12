@@ -1,0 +1,241 @@
+﻿@using SharedLayer.Dtos
+@model ICollection<MessageInBoxDto>
+@{
+    ViewData["Title"] = "DraftList";
+    Layout = "~/Areas/Academician/Views/Shared/_AcademicianLayout.cshtml";
+}
+
+
+
+
+<div class="content-wrapper">
+    
+    <section class="content">
+        <div class="container-fluid">
+           
+            <div class="row">
+                @Html.Partial("_MessageSidebarPartial")
+                <div class="col-md-9">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h3 class="card-title">Taslaklar</h3>
+
+                            <div class="card-tools">
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control" placeholder="Search Mail">
+                                    <div class="input-group-append">
+                                        <div class="btn btn-primary">
+                                            <i class="fas fa-search"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-tools -->
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body p-0">
+                            <div class="mailbox-controls">
+                                <!-- Check all button -->
+                                <button type="button" class="btn btn-default btn-sm checkbox-toggle">
+                                    <i class="far fa-square"></i>
+                                </button>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default btn-sm"><i class="far fa-trash-alt"></i></button>
+                                    <button type="button" class="btn btn-default btn-sm"><i class="fas fa-reply"></i></button>
+                                    <button type="button" class="btn btn-default btn-sm"><i class="fas fa-share"></i></button>
+                                </div>
+                                <!-- /.btn-group -->
+                                <button type="button" class="btn btn-default btn-sm"><i class="fas fa-sync-alt"></i></button>
+                                <div class="float-right">
+                                    1-50/200
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default btn-sm"><i class="fas fa-chevron-left"></i></button>
+                                        <button type="button" class="btn btn-default btn-sm"><i class="fas fa-chevron-right"></i></button>
+                                    </div>
+                                    <!-- /.btn-group -->
+                                </div>
+                                <!-- /.float-right -->
+                            </div>
+                            <div class="table-responsive mailbox-messages">
+                                <table class="table table-hover table-striped">
+                                    <tbody>
+                                        @if (Model.Count != null)
+                                        {
+                                            @foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <div class="icheck-primary">
+                                                            <input type="checkbox" value="" id="check1">
+                                                            <label for="check1"></label>
+                                                        </div>
+                                                    </td>
+                                                    <td class="mailbox-star"><a href="#"><i class="fas fa-star text-warning"></i></a></td>
+                                                    <td class="mailbox-name"><a href="read-mail.html">@item.SenderMail</a></td>
+                                                    <td class="mailbox-subject">
+                                                        <b>@item.Title</b> - TASLAK
+                                                    </td>
+                                                    <td class="mailbox-attachment"></td>
+                                                    <td class="mailbox-date" data-date="@item.Date"></td>
+                                                    <td class="mailbox-actions">
+
+                                                        <a class="btn btn-info btn-sm" href="/Academician/Message/SendMail/@item.Id">
+                                                            GÖNDER
+                                                            <i class="fas fa-envelope-"></i>
+                                                        </a>
+
+
+
+                                                        <a onclick="DelDraft('@item.Id')" class="btn btn-danger btn-sm">
+                                                            SİL
+                                                            <i class="fas fa-trash"></i>
+                                                        </a>
+
+
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+
+
+
+
+                                    </tbody>
+                                </table>
+                                <!-- /.table -->
+                            </div>
+                            <!-- /.mail-box-messages -->
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer p-0">
+                            <div class="mailbox-controls">
+                                <!-- Check all button -->
+                                <button type="button" class="btn btn-default btn-sm checkbox-toggle">
+                                    <i class="far fa-square"></i>
+                                </button>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default btn-sm"><i class="far fa-trash-alt"></i></button>
+                                    <button type="button" class="btn btn-default btn-sm"><i class="fas fa-reply"></i></button>
+                                    <button type="button" class="btn btn-default btn-sm"><i class="fas fa-share"></i></button>
+                                </div>
+                                <!-- /.btn-group -->
+                                <button type="button" class="btn btn-default btn-sm"><i class="fas fa-sync-alt"></i></button>
+                                <div class="float-right">
+                                    1-50/200
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default btn-sm"><i class="fas fa-chevron-left"></i></button>
+                                        <button type="button" class="btn btn-default btn-sm"><i class="fas fa-chevron-right"></i></button>
+                                    </div>
+                                    <!-- /.btn-group -->
+                                </div>
+                                <!-- /.float-right -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+</div>
+<script>
+
+    function timeAgo(date) {
+        const now = new Date();
+        const past = new Date(date);
+        const timeDiff = now - past;  
+        const seconds = Math.floor(timeDiff / 1000);
+        const minutes = Math.floor(seconds / 60);
+        const hours = Math.floor(minutes / 60);
+        const days = Math.floor(hours / 24);
+
+        if (days >= 1) {
+            return days + " gün önce";
+        } else if (hours >= 1) {
+            return hours + " saat önce";
+        } else if (minutes >= 1) {
+            return minutes + " dakika önce";
+        } else {
+            return "Az önce";
+        }
+    }
+
+
+    function DelDraft(Id) {
+         if (confirm("Silmek istediğinize emin misiniz?")) {
+             $.ajax({
+                url: '/Academician/Message/DelDraft',  
+                type: 'POST',  
+                data: { id: Id },  
+                success: function (result) {
+                  
+                    if (result==true) {
+                        alert("Taslak başarıyla silindi.");
+                        location.reload();  
+                    } else {
+                        alert("Taslak silinirken bir hata oluştu.");
+                        location.reload();
+                    }
+                },
+                error: function () {
+               
+                    alert("Sunucuda bir hata oluştu, lütfen tekrar deneyin.");
+                }
+            });
+        }
+    }
+
+
+
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const dateCells = document.querySelectorAll(".mailbox-date");
+
+        dateCells.forEach(cell => {
+            const date = cell.getAttribute("data-date");
+            const timeAgoText = timeAgo(date);
+            cell.innerText = timeAgoText;
+        });
+    });
+    $(function () {
+        //Enable check and uncheck all functionality
+        $('.checkbox-toggle').click(function () {
+            var clicks = $(this).data('clicks')
+            if (clicks) {
+                //Uncheck all checkboxes
+                $('.mailbox-messages input[type=\'checkbox\']').prop('checked', false)
+                $('.checkbox-toggle .far.fa-check-square').removeClass('fa-check-square').addClass('fa-square')
+            } else {
+                //Check all checkboxes
+                $('.mailbox-messages input[type=\'checkbox\']').prop('checked', true)
+                $('.checkbox-toggle .far.fa-square').removeClass('fa-square').addClass('fa-check-square')
+            }
+            $(this).data('clicks', !clicks)
+        })
+
+        //Handle starring for glyphicon and font awesome
+        $('.mailbox-star').click(function (e) {
+            e.preventDefault()
+            //detect type
+            var $this = $(this).find('a > i')
+            var glyph = $this.hasClass('glyphicon')
+            var fa = $this.hasClass('fa')
+
+            //Switch states
+            if (glyph) {
+                $this.toggleClass('glyphicon-star')
+                $this.toggleClass('glyphicon-star-empty')
+            }
+
+            if (fa) {
+                $this.toggleClass('fa-star')
+                $this.toggleClass('fa-star-o')
+            }
+        })
+    })
+</script>
+
+
